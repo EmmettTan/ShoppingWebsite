@@ -1,33 +1,46 @@
-#header {
+body {
+	width: 1000px;
 
+	background-color: #E3FFB0;
+}
+
+#header {
+	align-content: center;
+	background-color: #000FFF;
 }
 
 #logo{
+	margin-left: 1%;
+	margin-right: 90%;
 
+	height: 100%;
+
+	background-color: #e2daa1;
 }
 
 #welcomeBanner{
-
+	background-color: #c3a1e2;
 }
 
 #mainContent{
-
+	align-content: center;
+	background-color: #91f7cd;
 }
 
 #navigationMenu{
-
+	background-color: #0ecd7e;
 }
 
 #productList{
-
+	background-color: #51cd0e;
 }
 
 .product{
-
+	background-color: #cd0e0e;
 }
 
 #footer{
-
+	background-color: #ffffff;
 }
 
 
