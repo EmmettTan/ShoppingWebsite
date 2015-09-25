@@ -64,7 +64,7 @@ body {
 
 #productList{
 	float: left;
-	background-color: #51cd0e;
+	//background-color: #51cd0e;
 	margin-top: 1%;
 	margin-left: 5%;
 	position: relative;
@@ -74,20 +74,6 @@ body {
 }
 
 .product{
-	background-color: #cd0e0e;
-}
-
-.productl{
-	margin-left: 2%;
-	align-content: left;
-	background-color: #cd0e0e;
-}
-.productm{
-	align-content: center;
-	background-color: #cd0e0e;
-}
-.productr{
-	align-content: right;
 	background-color: #cd0e0e;
 }
 
@@ -306,6 +292,13 @@ p {
 	cursor: pointer;
 }
 
-
+table {
+	border-spacing: 20px;
+	table-layout: fixed;
+}
+th, td {
+	padding: 15px;
+	width: 50px;
+}
 
 
