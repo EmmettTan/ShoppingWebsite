@@ -6,11 +6,16 @@ body {
 
 #header {
 	align-content: center;
+	height: 13vw;
+	width: 98vw;
 	background-color: #000FFF;
 }
 
 #logo{
+	float: left;
+	margin-top: 1%;
 	margin-left: 3%;
+	position: relative;
 
 	height: 11vw;
 	width: 8vw;
@@ -19,27 +24,70 @@ body {
 }
 
 #welcomeBanner{
+	float: left;
+	margin-top: 1%;
+	margin-left: 5%;
+	position: relative;
+
+	height: 11vw;
+	width: 50vw;
+
 	background-color: #c3a1e2;
 }
 
 #logo, #welcomeBanner{
-	float: left;
+	
 }
 
 #mainContent{
+	width: 90vw;
+	height: 50vw;
 	align-content: center;
 	background-color: #91f7cd;
 }
 
 #navigationMenu{
+	float: left;
 	background-color: #0ecd7e;
+	margin-top: 1%;
+	margin-left: 3%;
+	position: relative;
+
+	height: 11vw;
+	width: 8vw;
 }
 
-#productList{
+.menuItem{
+	text-align: center;
 	background-color: #51cd0e;
 }
 
+#productList{
+	float: left;
+	background-color: #51cd0e;
+	margin-top: 1%;
+	margin-left: 5%;
+	position: relative;
+
+	height: 11vw;
+	width: 50vw;
+}
+
 .product{
+	background-color: #cd0e0e;
+}
+
+.productl{
+	margin-left: 2%;
+	align-content: left;
+	background-color: #cd0e0e;
+}
+.productm{
+	align-content: center;
+	background-color: #cd0e0e;
+}
+.productr{
+	align-content: right;
 	background-color: #cd0e0e;
 }
 
