@@ -62,6 +62,10 @@ body {
 	background-color: #51cd0e;
 }
 
+.menuItem:hover{
+	background-color: #FF66CC;
+}
+
 #productList{
 	float: left;
 	//background-color: #51cd0e;
