@@ -95,13 +95,35 @@ body {
 	background-color: #cd0e0e;
 }
 
-.productPrice{
-	
+.priceLabel{
+	text-align: center;
+	font-size: 200%;
+	position: relative;
+	height: 5vm;
+	bottom: 2.25em;
+	opacity: 0;
 }
 
-#footer{
-	background-color: #ffffff;
+.imageHolder{
+	height: 7em;
 }
+
+.thumbnail{
+	margin-right: 6.5vw;
+}
+
+.thumbnail > img{
+	margin-top: 0vw;
+}
+
+.thumbnail:hover > .priceLabel{
+	opacity: 1;
+}
+
+.thumbnail:hover > img{
+	opacity: 0.25;
+}
+
 
 
 
@@ -152,6 +174,12 @@ body {
 	cursor: pointer;
 }
 
+
+#footer{
+	background-color: #ffffff;
+}
+
+
 table {
 	border-spacing: 20px;
 	table-layout: fixed;
@@ -161,20 +189,4 @@ th, td {
 	width: 50px;
 }
 
-.priceLabel{
-	text-align: center;
-	font-size: 200%;
-	position: relative;
-	height: 5px;
-	bottom: 4em;
-	opacity: 0;
-}
-
-.thumbnail:hover > .priceLabel{
-	opacity: 1;
-}
-
-.thumbnail:hover > img{
-	opacity: 0.25;
-}
 
