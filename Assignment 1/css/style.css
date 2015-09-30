@@ -61,18 +61,22 @@ body {
 }
 
 #navigationMenu{
-	float: left;
+	/*float: left;
 	background-color: #0ecd7e;
 	margin-top: 1%;
 	margin-left: 3%;
 	position: relative;
 
 	height: 11vw;
-	width: 8vw;
+	width: 8vw;*/
 }
 
 .menuItem{
+	width: 8vw;
+	height: 2vw;
+	line-height: 2vw;
 	text-align: center;
+	vertical-align: middle;
 	background-color: #51cd0e;
 }
 
@@ -190,3 +194,8 @@ th, td {
 }
 
 
+span {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+}
