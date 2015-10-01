@@ -30,7 +30,7 @@ body {
 
 #logo{
 	float: left;
-	margin-top: 1%;
+	margin-top: 3%;
 	margin-left: 3%;
 	position: relative;
 
@@ -47,7 +47,7 @@ body {
 	position: relative;
 
 	height: 11vw;
-	width: 50vw;
+	width: 35vw;
 
 	background-color: #c3a1e2;
 }
@@ -61,14 +61,7 @@ body {
 }
 
 #navigationMenu{
-	/*float: left;
-	background-color: #0ecd7e;
-	margin-top: 1%;
-	margin-left: 3%;
-	position: relative;
-
-	height: 11vw;
-	width: 8vw;*/
+	margin-left: -.60vw;
 }
 
 .menuItem{
@@ -82,13 +75,12 @@ body {
 
 .menuItem:hover{
 	background-color: #FF66CC;
+	font-weight: bold;
 }
 
 #productList{
-	float: left;
-	//background-color: #51cd0e;
-	margin-top: 1%;
-	margin-left: 5%;
+	margin-top: 1vw;
+	margin-left: 3.5vw;
 	position: relative;
 
 	height: 11vw;
@@ -180,7 +172,14 @@ body {
 
 
 #footer{
-	background-color: #ffffff;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 90px;       /* the same as your div height */
+}
+
+#footerText{
+
+	background-color: #000000;
 }
 
 
@@ -199,3 +198,6 @@ span {
 	vertical-align: middle;
 	line-height: normal;
 }
+
+
+
