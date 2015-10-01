@@ -34,8 +34,6 @@ body {
 	margin-left: 3%;
 	position: relative;
 
-	height: 11vw;
-	width: 8vw;
 
 	background-color: #e2daa1;
 }
@@ -46,8 +44,6 @@ body {
 	margin-left: 5%;
 	position: relative;
 
-	height: 11vw;
-	width: 35vw;
 
 	background-color: #c3a1e2;
 }
@@ -65,7 +61,7 @@ body {
 }
 
 .menuItem{
-	width: 8vw;
+	width: 12vw;
 	height: 2vw;
 	line-height: 2vw;
 	text-align: center;
@@ -91,6 +87,11 @@ body {
 	background-color: #cd0e0e;
 }
 
+.product img{
+	height: 100%;
+	width: 100%;
+}
+
 .priceLabel{
 	text-align: center;
 	font-size: 200%;
@@ -100,16 +101,14 @@ body {
 	opacity: 0;
 }
 
-.imageHolder{
-	height: 7em;
-}
-
 .thumbnail{
 	margin-right: 6.5vw;
 }
 
-.thumbnail > img{
-	margin-top: 0vw;
+.thumbnail img{
+	text-align: center;
+	font-size: 200%;
+	position: relative;
 }
 
 .thumbnail:hover > .priceLabel{
@@ -171,15 +170,11 @@ body {
 }
 
 
-#footer{
+.footer{
+	width: 100vw;
 	text-align: center;
 	vertical-align: middle;
 	line-height: 90px;       /* the same as your div height */
-}
-
-#footerText{
-
-	background-color: #000000;
 }
 
 
@@ -199,5 +194,11 @@ span {
 	line-height: normal;
 }
 
+.thumbnail {
+    display: block;
+    padding: 8px;
+    margin-bottom: 20px;
+    border-radius: 11px;
+}
 
 
