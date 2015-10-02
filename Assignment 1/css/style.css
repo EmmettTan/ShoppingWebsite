@@ -18,14 +18,14 @@ p {
 body {
 	width: 1000px;
 	margin: auto;
-	background-color: #E3FFB0;
+	background-color: #ffffff;
 }
 
 #header {
 	align-content: center;
 	height: 13vw;
 	width: 100vw;
-	background-color: #000FFF;
+	background-color: #996600;
 }
 
 #logo{
@@ -35,7 +35,7 @@ body {
 	position: relative;
 
 
-	background-color: #e2daa1;
+	background-color: #ffffff;
 }
 
 #welcomeBanner{
@@ -53,7 +53,7 @@ body {
 	width: 100vw;
 	height: 50vw;
 	align-content: center;
-	background-color: #91f7cd;
+	background-color: #ffffff;
 }
 
 #navigationMenu{
@@ -174,7 +174,8 @@ body {
 	width: 100vw;
 	text-align: center;
 	vertical-align: middle;
-	line-height: 90px;       /* the same as your div height */
+	line-height: 90px; 
+	background-color: #FFFFCC;      /* the same as your div height */
 }
 
 
@@ -201,4 +202,7 @@ span {
     border-radius: 11px;
 }
 
+.col-md-1{
+	height: 100px;
+}
 
