@@ -3,8 +3,9 @@
 	
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
-		<meta charset="utf-8">
-		<title>TITLE</title>
+		<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>CPEN 400A</title>
 
 		<!-- Latest compiled and minified CSS -->
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -21,174 +22,97 @@
 	</head>
 	
 	<body>
-		<div id="header">
-			<div class="container">		
-				<div class="row">
-					<div class="col-md-3">
-						<div id="logo">
-							<img src="images/eceLogo.jpg"></img>
-						</div>
-					</div>
-					<div class ="col-md-8">
-						<div id="welcomeBanner">
-							<img src="images/eceWelcomeBanner.jpg"></img>
-						</div>
-					</div>
+		<div id="header">	
+			<div class="container">
+				<div class="col-xs-4" id="logo">
+					<img src="images/eceLogo.jpg"></img>
 				</div>
-			</div>	
+				<div class ="col-xs-6" id="welcomeBanner">
+					<img src="images/eceWelcomeBanner.jpg"></img>
+				</div>
+			</div>
 		</div>
 
 		<div id="mainContent">
 			<div class="container">
-				<div class="row">
-
-					<div class="col-md-3">
-						<div id="navigationMenu">
-							<div class="container">
-								<div class="column">
-									<br>
-									<div class="menuItem" id="menuitem1">
-										All Items
-									</div>
-									<br>
-									<div class="menuItem" id="menuItem2">
-										Books
-									</div>
-									<br>
-									<div class="menuItem" id="menuItem3">
-										Clothing
-									</div>
-									<br>
-									<div class="menuItem" id="menuItem4">
-										Tech
-									</div>
-									<br>
-									<div class="menuItem" id="menuItem5">
-										Gifts
-									</div>
-									<br>
-									<div class="menuItem" id="menuItem6">
-										Sationary
-									</div>
-									<br>
-									<div class="menuItem" id="menuItem7">
-										Supplies
-									</div>
-								</div>
-							</div>
+				<div class="col-xs-2" id="navigationMenu">
+					<div class="menuItem">
+						All Items
+					</div>
+					<div class="menuItem">
+						Books
+					</div>
+					<div class="menuItem">
+						Clothing
+					</div>
+					<div class="menuItem">
+						Tech
+					</div>
+					<div class="menuItem">
+						Gifts
+					</div>
+					<div class="menuItem">
+						Stationary
+					</div>
+					<div class="menuItem">
+						Supplies
+					</div>
+				</div>
+				<div class="col-xs-9" id="productList">
+					<div class="row productRow">
+						<div class="col-xs-4 product">
+							<img src="images/box1_$10.png" alt="images/box1_$10.png">
+						</div>
+						<div class="col-xs-4 product">
+							<img src="images/box2_$20.png" alt="images/box2_$20.png">
+						</div>
+						<div class="col-xs-4 product">
+							<img src="images/Clothes1_$20.png" alt="images/Clothes1_$20.png">
 						</div>
 					</div>
-
-					<div class="col-md-8" id="productList">
-						<div class="container">
-						    <div class="row">
-						      <div class="col-xs-6 col-md-1 thumbnail product">
-						          <img src="images/box1_$10.png" alt="images/box1_$10.png">
-						          <div class="priceLabel">
-						          	10$
-						          </div>
-						      </div>
-
-						      <div class="col-xs-6 col-md-1 thumbnail product">
-						          <img src="images/box2_$20.png" alt="images/box2_$20.png">
-						          <div class="priceLabel">
-						          	20$
-						          </div>
-						      </div>
-
-						      <div class="col-xs-6 col-md-1 thumbnail product">
-						          <img src="images/Clothes1_$20.png" alt="images/Clothes1_$20.png">
-						          <div class="priceLabel">
-						          	20$
-						          </div>
-						      </div>
-						    </div>
-
-						    <div class="row">
-						    	<div class="col-xs-6 col-md-1 thumbnail product">
-						          	<img src="images/Clothes2_$30.png" alt="images/Clothes2_$30.png">
-						          	<div class="priceLabel">
-						          		30$
-						             </div>
-							    </div>
-
-							    <div class="col-xs-6 col-md-1 thumbnail product">
-							        <img src="images/Jeans_$50.png" alt="images/Jeans_$50.png">
-							        <div class="priceLabel">
-							        	50$
-							        </div>
-							    </div>
-
-							    <div class="col-xs-6 col-md-1 thumbnail product">
-							        <img src="images/Keyboard_$20.png" alt="images/Keyboard_$20.png">
-							        <div class="priceLabel">
-							          20$
-							        </div>
-							    </div>
-						    </div>
-
-						    <div class="row">
-
-						    	<div class="col-xs-6 col-md-1 thumbnail product">
-							        <img src="images/KeyboardCombo_$40.png" alt="images/KeyboardCombo_$40.png">
-							        <div class="priceLabel">
-							          40$
-							        </div>
-							    </div>
-
-							    <div class="col-xs-6 col-md-1 thumbnail product">
-							        <img src="images/Mice_$20.png" alt="images/Mice_$20.png">
-							        <div class="priceLabel">
-							           20$
-							        </div>
-							    </div>
-
-					            <div class="col-xs-6 col-lg-1 thumbnail product">
-					                <img src="images/PC1_$350.png" alt="images/PC1_$350.png">
-					                <div class="priceLabel">
-					                	350$
-					                </div>
-					            </div>
-						     </div>
-
-						    <div class="row">
-						    	<div class="col-xs-6 col-sm-1 thumbnail product">
-					                <img src="images/PC2_$400.png" alt="images/PC2_$400.png">
-					                <div class="priceLabel">
-					                	400$
-					                </div>
-					            </div>
-      
-					            <div class="col-xs-6 col-sm-1 thumbnail product">
-					                <img src="images/PC3_$300.png" alt="images/PC3_$300.png">
-					                <div class="priceLabel">
-					                	300$
-					                </div>
-					            </div>
-      
-					            <div class="col-xs-6 col-sm-1 thumbnail product">
-					                <img src="images/Tent_$100.png" alt="images/Tent_$100.png">
-					                <div class="priceLabel">
-					                	100$
-					                </div>
-					            </div>
-						    </div>
+					<div class="row productRow">
+						<div class="col-xs-4 product">
+							<img src="images/Clothes2_$30.png" alt="images/Clothes2_$30.png">
+						</div>
+						<div class="col-xs-4 product">
+							<img src="images/Jeans_$50.png" alt="images/Jeans_$50.png">
+						</div>
+						<div class="col-xs-4 product">
+							<img src="images/Keyboard_$20.png" alt="images/Keyboard_$20.png">
+						</div>
+					</div>
+					<div class="row productRow">
+						<div class="col-xs-4 product">
+							<img src="images/KeyboardCombo_$40.png" alt="images/KeyboardCombo_$40.png">
+						</div>
+						<div class="col-xs-4 product">
+							<img src="images/Mice_$20.png" alt="images/Mice_$20.png">
+						</div>
+						<div class="col-xs-4 product">
+							<img src="images/PC1_$350.png" alt="images/PC1_$350.png">
+						</div>
+					</div>
+					<div class="row productRow">
+						<div class="col-xs-4 product">
+							<img src="images/PC2_$400.png" alt="images/PC2_$400.png">
+						</div>
+						<div class="col-xs-4 product">
+							<img src="images/PC3_$300.png" alt="images/PC3_$300.png">
+						</div>
+						<div class="col-xs-4 product">
+							<img src="images/Tent_$100.png" alt="images/Tent_$100.png">
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
 		<footer class="footer" id="footer">
-			<div class ="container">
-				Footer
-			</div>
+			Footer
 		</footer>
 
-		 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	    <!-- Include all compiled plugins (below), or include individual files as needed -->
 	    <script src="js/bootstrap.min.js"></script>
-		    <!-- Latest compiled and minified JavaScript -->
 	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 	</body>
 	

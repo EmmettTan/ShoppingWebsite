@@ -1,208 +1,26 @@
-html {
-	overflow-y: scroll;
-}
-
-h3 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: xx-large;
-	font-weight: bold;
-}
-
-p {
-	font-size: small;	
-	width: 450px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-body {
-	width: 1000px;
-	margin: auto;
-	background-color: #ffffff;
-}
-
-#header {
-	align-content: center;
-	height: 13vw;
-	width: 100vw;
-	background-color: #996600;
-}
-
-#logo{
-	float: left;
-	margin-top: 3%;
-	margin-left: 3%;
-	position: relative;
-
-
-	background-color: #ffffff;
-}
-
-#welcomeBanner{
-	float: left;
-	margin-top: 1%;
-	margin-left: 5%;
-	position: relative;
-
-
-	background-color: #c3a1e2;
-}
-
-
-#mainContent{
-	width: 100vw;
-	height: 50vw;
-	align-content: center;
-	background-color: #ffffff;
-}
-
-#navigationMenu{
-	margin-left: -.60vw;
-}
-
-.menuItem{
-	width: 12vw;
-	height: 2vw;
-	line-height: 2vw;
-	text-align: center;
-	vertical-align: middle;
-	background-color: #51cd0e;
-}
-
-.menuItem:hover{
-	background-color: #FF66CC;
-	font-weight: bold;
-}
-
-#productList{
-	margin-top: 1vw;
-	margin-left: 3.5vw;
-	position: relative;
-
-	height: 11vw;
-	width: 50vw;
+.product img{
+	width: 200px; 
+	height: auto;
+	padding-top: 2.5px;
+	padding-bottom: 2.5px;
+	padding-left: 2.5px;
+	padding-right: 2.5px;
 }
 
 .product{
-	background-color: #cd0e0e;
+	background-color: #E6E6DA;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	padding-right: 20px;
 }
 
-.product img{
-	height: 100%;
-	width: 100%;
+.productRow{
+	margin-bottom: 10px;
 }
 
-.priceLabel{
-	text-align: center;
-	font-size: 200%;
-	position: relative;
-	height: 5vm;
-	bottom: 2.25em;
-	opacity: 0;
+/* set a max-width for horizontal fluid layout and make it centered */
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1000px; /* or 950px */
 }
-
-.thumbnail{
-	margin-right: 6.5vw;
-}
-
-.thumbnail img{
-	text-align: center;
-	font-size: 200%;
-	position: relative;
-}
-
-.thumbnail:hover > .priceLabel{
-	opacity: 1;
-}
-
-.thumbnail:hover > img{
-	opacity: 0.25;
-}
-
-
-
-
-#description {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: xx-large;
-	font-weight: bold;
-	
-	background-color: #E3F0FB;
-	
-	border-radius: 45px;
-	padding: 10px;
-	text-align: center;
-	
-	height: 263px;
-	width: 500px;
-	
-	position: relative;
-	top: 25%;
-	margin-right: auto;
-	margin-left: auto;
-}
-
-
-
-
-.buttonStyle {
-	border-radius: 4px;
-	border: thin solid #F0E020;
-	padding: 5px;
-	background-color: #F8F094;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-	font-weight: bold;
-	color: #663300;
-	width: 75px;
-}
-
-.buttonStyle:hover {
-	border: thin solid #FFCC00;
-	background-color: #FCF9D6;
-	color: #996633;
-	cursor: pointer;
-}
-.buttonStyle:active {
-	border: thin solid #99CC00;
-	background-color: #F5FFD2;
-	color: #669900;
-	cursor: pointer;
-}
-
-
-.footer{
-	width: 100vw;
-	text-align: center;
-	vertical-align: middle;
-	line-height: 90px; 
-	background-color: #FFFFCC;      /* the same as your div height */
-}
-
-
-table {
-	border-spacing: 20px;
-	table-layout: fixed;
-}
-th, td {
-	padding: 15px;
-	width: 50px;
-}
-
-
-span {
-	display: inline-block;
-	vertical-align: middle;
-	line-height: normal;
-}
-
-.thumbnail {
-    display: block;
-    padding: 8px;
-    margin-bottom: 20px;
-    border-radius: 11px;
-}
-
-.col-md-1{
-	height: 100px;
-}
-
