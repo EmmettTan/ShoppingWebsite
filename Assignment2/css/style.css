@@ -3,6 +3,18 @@
 	background-color: #FFFFCC;
 }
 
+#mainContent{
+	width: 1000px;
+}
+
+#mainContent, #navigationMenu, .productList, .productRow, .product{
+	background-color: #eeeeee;
+}
+
+#navigationMenu{
+	margin-top: 50px;
+}
+
 .menuItem{
 	background-color: #00FFFF;
 	width: 100px;
@@ -38,7 +50,6 @@
 }
 
 .product{
-	background-color: #ffffff;
 	padding-top: 20px;
 	padding-bottom: 20px;
 }
