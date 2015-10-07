@@ -1,0 +1,107 @@
+#header{
+	width: 1000px;
+	background-color: #FFFFCC;
+}
+
+.menuItem{
+	background-color: #00FFFF;
+	width: 100px;
+	height: 40px;
+
+	text-align: center;
+	line-height: 40px;
+}
+
+.menuItem:hover{
+	background-color: #9DA5A5;
+	font-style: oblique;
+}
+
+.itemName{
+	text-align: center;
+	font-size: 24px;
+
+}
+
+.product img{
+	width: 200px; 
+	height: auto;
+	/*padding-top: 2.5px;
+	padding-bottom: 2.5px;
+	padding-left: 2.5px;
+	padding-right: 2.5px;*/
+	opacity: 1;
+
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.product{
+	background-color: #ffffff;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.product:hover{
+	background-color: #E6E6DA;
+}
+
+.product:hover .priceLabel{
+	visibility: visible;
+	z-index: 2;
+}
+
+.product:hover > img{
+	
+}
+
+.priceLabel{
+	position: absolute;
+	background-color: #FFFFFF;
+	height: 50px;
+	width: 200px;
+
+	left: 21px;
+
+	line-height: 50px;
+	margin-top: -50px;
+	z-index: 0;
+
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+
+    font-size: 16px;
+}
+
+.productRow{
+	margin-bottom: 10px;
+}
+
+.priceLabel{
+	visibility: hidden;
+	text-align: center;
+}
+
+/* set a max-width for horizontal fluid layout and make it centered */
+.container {
+	margin-right: auto;
+ 	margin-left: auto;
+ 	max-width: 1000px; /* or 950px */
+}
+
+.footer{
+	width: 1000px;
+	background-color: #FFCC99;
+
+	height: 75px;
+	
+
+	text-align: center;
+}
+
+.footerContent{
+	line-height: 75px;
+	font-size: 21px;
+}
