@@ -24,8 +24,8 @@
 }
 
 .product img{
-	width: 200px; 
-	height: auto;
+	max-width: 200px; 
+	height: 200px;
 	/*padding-top: 2.5px;
 	padding-bottom: 2.5px;
 	padding-left: 2.5px;
@@ -56,6 +56,11 @@
 	
 }
 
+.product:hover .bottom{
+	visibility: visible;
+	z-index: 2;
+}
+
 .priceLabel{
 	position: absolute;
 	background-color: #FFFFFF;
@@ -82,6 +87,15 @@
 .priceLabel{
 	visibility: hidden;
 	text-align: center;
+}
+
+.img-container { position: relative; }
+
+.img-container .top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
 }
 
 /* set a max-width for horizontal fluid layout and make it centered */
