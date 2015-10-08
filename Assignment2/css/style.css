@@ -38,16 +38,23 @@
 .product img{
 	max-width: 200px; 
 	height: 200px;
-	/*padding-top: 2.5px;
-	padding-bottom: 2.5px;
-	padding-left: 2.5px;
-	padding-right: 2.5px;*/
 	opacity: 1;
 
 	display: block;
     margin-left: auto;
     margin-right: auto;
 }
+
+.cartOverlay img{
+	max-width: 200px; 
+	height: 180px;
+	top: 5px;
+	left: 18px;
+	position: absolute;
+	visibility: hidden;
+}
+
+
 
 .product{
 	padding-top: 20px;
@@ -63,8 +70,8 @@
 	z-index: 2;
 }
 
-.product:hover > img{
-	
+.product:hover .cartOverlay img{
+	visibility: visible;
 }
 
 .product:hover .bottom{
