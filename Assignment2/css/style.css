@@ -16,7 +16,6 @@
 }
 
 .menuItem{
-	background-color: #00FFFF;
 	width: 100px;
 	height: 40px;
 
@@ -24,8 +23,11 @@
 	line-height: 40px;
 }
 
+.menuButton{
+	width: 100px;
+}
+
 .menuItem:hover{
-	background-color: #9DA5A5;
 	font-style: oblique;
 }
 
@@ -54,6 +56,19 @@
 	visibility: hidden;
 }
 
+.addBtn{
+	position:absolute;
+	visibility: hidden;
+	left: 40px;
+	bottom: 80px;
+}
+
+.removeBtn{
+	position:absolute;
+	visibility: hidden;
+	left: 100px;
+	bottom: 80px;
+}
 
 
 .product{
@@ -67,6 +82,7 @@
 
 .product:hover .priceLabel{
 	visibility: visible;
+	background-color:rgba(0,0,0,0.4);
 	z-index: 2;
 }
 
@@ -78,10 +94,16 @@
 	z-index: 3;
 }
 
-.product:hover .bottom{
+.product:hover .addBtn{
 	visibility: visible;
-	z-index: 2;
+	z-index: 4;
 }
+
+.product:hover .removeBtn{
+	visibility: visible;
+	z-index: 4;
+}
+
 
 .priceLabel{
 	visibility: hidden;
