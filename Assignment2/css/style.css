@@ -47,9 +47,9 @@
 
 .cartOverlay img{
 	max-width: 200px; 
-	height: 180px;
-	top: 5px;
-	left: 18px;
+	height: 100px;
+	top: 40px;
+	left: 68px;
 	position: absolute;
 	visibility: hidden;
 }
@@ -70,8 +70,12 @@
 	z-index: 2;
 }
 
+.product:hover .productImg{
+	opacity: 0.4;
+}
 .product:hover .cartOverlay img{
 	visibility: visible;
+	z-index: 3;
 }
 
 .product:hover .bottom{
@@ -80,8 +84,11 @@
 }
 
 .priceLabel{
+	visibility: hidden;
+	text-align: center;
+
 	position: absolute;
-	background-color: #FFFFFF;
+	background-color: #eeeeee;
 	height: 50px;
 	width: 200px;
 
@@ -102,10 +109,6 @@
 	margin-bottom: 10px;
 }
 
-.priceLabel{
-	visibility: hidden;
-	text-align: center;
-}
 
 .img-container { position: relative; }
 
