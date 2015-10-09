@@ -1,4 +1,4 @@
-var cart = {};
+var cart = [];
 var products = [];
 
 function init(){
@@ -16,12 +16,25 @@ function init(){
 	products["Tent"] = "$100";
 }
 
+function myFunction(){
+	alert(cart["Box1"]);
+}
+
 function addToCart(name) {
-	alert("addToCart: " + products[name]);
+	if(cart.hasOwnProperty(name)){
+		cart[name]++;
+	}else{
+		cart[name] = 1;
+	}
 }
 
 function removeFromCart(name){
-	alert("removeFromCart: " + name);
+	if(cart.hasOwnProperty(name)){
+		cart[name]--;
+		if(cart[name] == 0){
+			delete cart[name];
+		}
+	}
 }
 
 
