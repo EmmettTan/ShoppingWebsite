@@ -1,5 +1,7 @@
 var cart = [];
 var products = [];
+var timeoutAlertTimer;
+var inactiveTime = 30000;
 
 function init(){
 	products["Box1"] = "$10";
@@ -14,28 +16,47 @@ function init(){
 	products["PC2"] = "$400";
 	products["PC3"] = "$300";
 	products["Tent"] = "$100";
+
+	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
 }
 
-function myFunction(){
-	alert(cart["Box1"]);
+function displayTimeoutAlert(){
+	alert("Hey there! Are you still planning to buy something?");
+	clearTimeout(timeoutAlertTimer);
+	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
 }
 
-function addToCart(name) {
-	if(cart.hasOwnProperty(name)){
-		cart[name]++;
+function addToCart(productName) {
+	clearTimeout(timeoutAlertTimer);
+	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
+	if(cart.hasOwnProperty(productName)){
+		cart[productName]++;
 	}else{
-		cart[name] = 1;
+		cart[productName] = 1;
 	}
 }
 
-function removeFromCart(name){
-	if(cart.hasOwnProperty(name)){
-		cart[name]--;
-		if(cart[name] == 0){
-			delete cart[name];
+function removeFromCart(productName){
+	clearTimeout(timeoutAlertTimer);
+	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
+	if(cart.hasOwnProperty(productName)){
+		cart[productName]--;
+		if(cart[productName] == 0){
+			delete cart[productName];
 		}
+	}else{
+		alert("Item does not exist in cart.");
 	}
 }
 
+function displayCart(){
+	if (Object.keys(cart).length == 0){
+		alert("Cart is Empty");
+		return;
+	}
+	for(var key in cart){
+		alert(key + ": " + cart[key]);
+	}
+}
 
 
