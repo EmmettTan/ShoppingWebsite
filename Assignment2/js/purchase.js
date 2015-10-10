@@ -4,18 +4,18 @@ var timeoutAlertTimer;
 var inactiveTime = 30000;
 
 function init(){
-	products["Box1"] = "$10";
-	products["Box2"] = "$20";
-	products["Clothes1"] = "$20";
-	products["Clothes2"] = "$30";
-	products["Jeans"] = "$50";
-	products["Keyboard"] = "$20";
-	products["KeyboardCombo"] = "$40";
-	products["Mice"] = "$20";
-	products["PC1"] = "$350";
-	products["PC2"] = "$400";
-	products["PC3"] = "$300";
-	products["Tent"] = "$100";
+	products["Box1"] = 5;
+	products["Box2"] = 5;
+	products["Clothes1"] = 5;
+	products["Clothes2"] = 5;
+	products["Jeans"] = 5;
+	products["Keyboard"] = 5;
+	products["KeyboardCombo"] = 5;
+	products["Mice"] = 5;
+	products["PC1"] = 5;
+	products["PC2"] = 5;
+	products["PC3"] = 5;
+	products["Tent"] = 5;
 
 	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
 }
@@ -29,10 +29,15 @@ function displayTimeoutAlert(){
 function addToCart(productName) {
 	clearTimeout(timeoutAlertTimer);
 	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
-	if(cart.hasOwnProperty(productName)){
-		cart[productName]++;
+	if (productInStock(productName)){
+		if(cart.hasOwnProperty(productName)){
+			cart[productName]++;
+		}else{
+			cart[productName] = 1;
+		}
+		products[productName]--;
 	}else{
-		cart[productName] = 1;
+		alert(productName + " is out of stock!");
 	}
 }
 
@@ -44,9 +49,14 @@ function removeFromCart(productName){
 		if(cart[productName] == 0){
 			delete cart[productName];
 		}
+		products[productName]++;
 	}else{
 		alert("Item does not exist in cart.");
 	}
+}
+
+function productInStock(productName){
+	return(products[productName] > 0);
 }
 
 function displayCart(){
@@ -60,3 +70,4 @@ function displayCart(){
 }
 
 
+$(document).ready(function(){ init(); }) 
