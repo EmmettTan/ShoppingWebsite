@@ -2,6 +2,7 @@ var cart = [];
 var products = [];
 var timeoutAlertTimer;
 var inactiveTime = 30000;
+var cartTimeout = 3000;
 
 function init(){
 	products["Box1"] = 5;
@@ -60,13 +61,21 @@ function productInStock(productName){
 }
 
 function displayCart(){
+	var cartTime = cartTimeout;
+	var cartAlerts = [];
 	if (Object.keys(cart).length == 0){
 		alert("Cart is Empty");
 		return;
 	}
+	var i = 0;
 	for(var key in cart){
-		alert(key + ": " + cart[key]);
+		cartAlerts[i] = setTimeout(cartAlert(key), cartTime * (i+1));
+		i++;
 	}
+}
+
+function cartAlert(productName){
+	alert(productName + ": " + cart[productName]);
 }
 
 
