@@ -2,7 +2,7 @@ var cart = [];
 var products = [];
 var timeoutAlertTimer;
 var inactiveTime = 30000;
-var cartTimeout = 3000;
+var cartTimeout = 30000;
 
 function init(){
 	products["Box1"] = 5;
@@ -17,14 +17,28 @@ function init(){
 	products["PC2"] = 5;
 	products["PC3"] = 5;
 	products["Tent"] = 5;
-
-	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
 }
 
 function displayTimeoutAlert(){
 	alert("Hey there! Are you still planning to buy something?");
 	clearTimeout(timeoutAlertTimer);
 	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
+}
+
+var CartDisplayAlert = function(time, tempProductName){
+	
+	var productName = tempProductName;
+	var timeout = time;
+
+	return{
+		init: function(){setTimeout(this.popupCartAlert, timeout);},
+		popupCartAlert: function(){	
+			alert(productName + ": " + products[productName]);
+			clearTimeout(timeoutAlertTimer);
+		timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
+
+		}
+	}
 }
 
 function addToCart(productName) {
@@ -69,7 +83,9 @@ function displayCart(){
 	}
 	var i = 0;
 	for(var key in cart){
-		cartAlerts[i] = setTimeout(cartAlert(key), cartTime * (i+1));
+		console.log(i);
+		cartAlerts[i] = CartDisplayAlert(cartTime*i, key);
+		cartAlerts[i].init();
 		i++;
 	}
 }
