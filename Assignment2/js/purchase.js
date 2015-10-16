@@ -33,7 +33,7 @@ var CartDisplayAlert = function(time, tempProductName){
 	return{
 		init: function(){setTimeout(this.popupCartAlert, timeout);},
 		popupCartAlert: function(){	
-			alert(productName + ": " + products[productName]);
+			alert(productName + ": " + cart[productName]);
 			clearTimeout(timeoutAlertTimer);
 		timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
 
