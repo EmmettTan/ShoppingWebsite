@@ -136,6 +136,14 @@
 	margin-bottom: 10px;
 }
 
+/* TODO, findout why visibility: hidden doesnt work */
+.product:hover .addBtnHidden .addBtn{
+	z-index: -1;
+}
+
+.product:hover .removeBtnHidden .removeBtn{
+	z-index: -1;
+}
 
 .img-container { position: relative; }
 

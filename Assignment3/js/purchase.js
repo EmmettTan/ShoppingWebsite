@@ -2,7 +2,9 @@ var cart = [];
 var products = [];
 var cashTotal = 0;
 var timeoutAlertTimer;
+var updateTimeRemainingTimer;
 var inactiveTime = 300000;
+var timeRemaining = inactiveTime;
 var cartTimeout = 3000;
 
 function init(){
@@ -43,12 +45,20 @@ function init(){
 	products["Tent"]["quantity"] = 5;
 	products["Tent"]["price"] = 100;
 
+	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
+	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
 	document.getElementById('cashTotalText').innerHTML = "$" + cashTotal;
+	document.getElementById("inactiveTimeText").innerHTML = timeRemaining/1000 - 1;
+	updateAddBtnVisibility();
+	updateRemoveBtnVisibility();
 }
 
 function displayTimeoutAlert(){
 	alert("Hey there! Are you still planning to buy something?");
 	clearTimeout(timeoutAlertTimer);
+	clearTimeout(updateTimeRemainingTimer);
+	timeRemaining = inactiveTime;
+	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
 	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
 }
 
@@ -62,15 +72,25 @@ var CartDisplayAlert = function(time, tempProductName){
 		popupCartAlert: function(){	
 			alert(productName + ": " + cart[productName]);
 			clearTimeout(timeoutAlertTimer);
-		timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
-
+			timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
 		}
 	}
 }
 
+function updateInactiveTime(){
+	timeRemaining = timeRemaining - 1000;
+	document.getElementById("inactiveTimeText").innerHTML = timeRemaining/1000 - 1;
+	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000)
+}
+
+
+
 function addToCart(productName) {
 	clearTimeout(timeoutAlertTimer);
 	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
+	timeRemaining = inactiveTime;
+	clearTimeout(updateTimeRemainingTimer);
+	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
 	if (productInStock(productName)){
 		if(cart.hasOwnProperty(productName)){
 			cart[productName]++;
@@ -82,11 +102,16 @@ function addToCart(productName) {
 		alert(productName + " is out of stock!");
 	}
 	updateCartPrice();
+	updateAddBtnVisibility();
+	updateRemoveBtnVisibility();
 }
 
 function removeFromCart(productName){
 	clearTimeout(timeoutAlertTimer);
 	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
+	timeRemaining = inactiveTime;
+	clearTimeout(updateTimeRemainingTimer);
+	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
 	if(cart.hasOwnProperty(productName)){
 		cart[productName]--;
 		if(cart[productName] == 0){
@@ -97,6 +122,8 @@ function removeFromCart(productName){
 		alert("Item does not exist in cart.");
 	}
 	updateCartPrice();
+	updateAddBtnVisibility();
+	updateRemoveBtnVisibility();
 }
 
 function updateCartPrice(){
@@ -108,8 +135,36 @@ function updateCartPrice(){
 	document.getElementById('cashTotalText').innerHTML = "$" + cashTotal;	
 }
 
+function updateAddBtnVisibility(){
+	for(var key in products){
+		if(!productInStock(key)){
+			document.getElementById(key).classList.add('addBtnHidden');
+			// document.querySelector('#' + key + ':hover ' + '.addBtn').style.visibility = 'hidden';
+		}else{
+			document.getElementById(key).classList.remove('addBtnHidden');
+			// document.querySelector('#' + key + ' ' + '.addBtn').style.visibility = 'visible';
+		}
+	}
+}
+
+function updateRemoveBtnVisibility(){
+	for(var key in products){
+		if(!itemExistsInCart(key)){
+			document.getElementById(key).classList.add('removeBtnHidden');
+			// document.querySelector('#' + key + ':hover ' + '.addBtn').style.visibility = 'hidden';
+		}else{
+			document.getElementById(key).classList.remove('removeBtnHidden');
+			// document.querySelector('#' + key + ' ' + '.addBtn').style.visibility = 'visible';
+		}
+	}
+}
+
 function productInStock(productName){
 	return(products[productName]["quantity"] > 0);
+}
+
+function itemExistsInCart(productName){
+	return(cart.hasOwnProperty(productName));
 }
 
 function displayCart(){
