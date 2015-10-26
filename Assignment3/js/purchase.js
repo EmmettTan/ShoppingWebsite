@@ -6,6 +6,7 @@ var updateTimeRemainingTimer;
 var inactiveTime = 300000;
 var timeRemaining = inactiveTime;
 var cartTimeout = 3000;
+var enableTimeouts = false;
 
 function init(){
 	products["Box1"] = {};
@@ -54,6 +55,7 @@ function init(){
 }
 
 function displayTimeoutAlert(){
+	if(!enableTimeouts)return;
 	alert("Hey there! Are you still planning to buy something?");
 	clearTimeout(timeoutAlertTimer);
 	clearTimeout(updateTimeRemainingTimer);
@@ -78,6 +80,7 @@ var CartDisplayAlert = function(time, tempProductName){
 }
 
 function updateInactiveTime(){
+	if(!enableTimeouts) return;
 	timeRemaining = timeRemaining - 1000;
 	document.getElementById("inactiveTimeText").innerHTML = timeRemaining/1000 - 1;
 	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000)
@@ -125,6 +128,8 @@ function removeFromCart(productName){
 	updateAddBtnVisibility();
 	updateRemoveBtnVisibility();
 }
+
+
 
 function updateCartPrice(){
 	var key;
