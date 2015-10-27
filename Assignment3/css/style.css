@@ -158,14 +158,9 @@
 	text-align: left;
 }
 
-#cartItem img{
+.cartItem img{
 	max-width: 150px; 
 	height: 100px;
-
-
-	display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #modalAddBtn{
@@ -173,6 +168,7 @@
 
 #modalRemoveBtn{
 }
+
 
 /* set a max-width for horizontal fluid layout and make it centered */
 .container {

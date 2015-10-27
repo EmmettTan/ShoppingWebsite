@@ -193,4 +193,4 @@ function cartAlert(productName){
 }
 
 
-$(document).ready(function(){ init(); }) 
+$(document).ready(function(){ init();  }) 
