@@ -163,10 +163,17 @@
 	height: 100px;
 }
 
-#modalAddBtn{
-}
+/*.modalItemImg{
+	float:right;
+}*/
 
-#modalRemoveBtn{
+/*.modalAddBtn{
+    float: right;
+    display: inline-block;
+}*/
+
+.modalRemoveBtn{
+	float: right;
 }
 
 

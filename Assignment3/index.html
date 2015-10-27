@@ -25,11 +25,18 @@
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title" id="myModalLabel">Cart Inventory</h4>
 	      </div>
-	      <div class="modal-body container">
-	      	<form class="form-inline" role="form">
-				<div class="form-group cartItem">
-			        <img src="images/box1_$10.png" alt="images/box1_$10.png">
-			        <input type="email" class="form-control" id="email" placeholder="Enter email">
+	      <div class="modal-body">
+	      	<form class="form-inline" id="cartModalForm" role="form">
+				<div class="row cartItem container">
+					<div class="col-xs-2">
+			        	<img class="modalItemImg" src="images/box1_$10.png" alt="images/box1_$10.png">
+			  		</div>
+					<div class="col-xs-2">
+			        	<button class="modalAddBtn">hello</button>
+			    	</div>
+					<div class="col-xs-2">
+			        	<button class="modalRemoveBtn">goodbye</button>
+			   		</div>
 				</div>
 	      	</form>
 	        <!-- <div id="cartItems">
