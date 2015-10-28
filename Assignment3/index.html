@@ -27,40 +27,22 @@
 	      </div>
 	      <div class="modal-body">
 	      	<form class="form-inline" id="cartModalForm" role="form">
-				<div class="row cartItem">
-					<div class="col-xs-8">
-			        	<img class="modalItemImg" src="images/box1_$10.png" alt="images/box1_$10.png">
+				<div class="row cartItem" item="Box1" id="modalItem-Box1">
+					<div class="col-xs-3">
+			        	<img class="modalItemImg" src="images/Box1_$10.png" alt="images/Box1_$10.png">
+			  		</div>
+			  		<div class="modalCartQuantityText col-xs-5">
+			  			Quantity:
 			  		</div>
 					<div class="col-xs-2">
-			        	<button class="modalAddBtn">hello</button>
+			        	<button onclick="modalAddToCart(this)" type="button"  class="modalAddBtn btn btn-success" id="modalAddBtn-Box1">+</button>
 			    	</div>
 					<div class="col-xs-2">
-			        	<button class="modalRemoveBtn">goodbye</button>
+			        	<button onclick="modalRemoveFromCart(this)" type="button"  class="modalRemoveBtn btn btn-danger" id="modalRemoveBtn-Box1">-</button>
 			   		</div>
 				</div>
+
 	      	</form>
-	        <!-- <div id="cartItems">
-	        	<div class="row">
-	        		<div class="col-xs-2">
-	        			<div id="cartItem">
-							<img src="images/box1_$10.png" alt="images/box1_$10.png">
-						</div>
-					</div>
-					<div class="col-xs-2">
-						Quantity: 
-					</div>
-					<div class="col-xs-1 ">
-						<div class="modalAddBtn">
-							<button onclick="addToCart('Box1')" type="button" class="btn btn-success">Add</button>
-						</div>
-					</div>
-					<div class="col-md-1">
-						<div class="modalRemoveBtn">
-							<button onclick="removeFromCart('Box1')" type="button" class="btn btn-danger">Remove</button>
-						</div>
-					</div>
-	        	</div>
-	        </div> -->
 	      </div>
 	      <div class="modal-footer">
 	      	<div class="row">
@@ -131,7 +113,7 @@
 							<div class="col-xs-4 product">
 								<div class="img-container" id="Box1">
 									<div class="productImg">
-										<img src="images/box1_$10.png" alt="images/box1_$10.png">
+										<img src="images/Box1_$10.png" alt="images/Box1_$10.png">
 									</div>
 									<div class="cartOverlay">
 										<img src="images/cart.png" alt="images/cart.png">
@@ -149,7 +131,7 @@
 							<div class="col-xs-4 product">
 								<div class="img-container" id="Box2">
 									<div class="productImg">
-										<img src="images/box2_$20.png" alt="images/box2_$20.png">
+										<img src="images/Box2_$20.png" alt="images/Box2_$20.png">
 									</div>
 									<div class="cartOverlay">
 										<img src="images/cart.png" alt="images/cart.png">

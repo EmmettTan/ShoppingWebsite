@@ -158,9 +158,25 @@
 	text-align: left;
 }
 
+.cartItem {
+	margin-bottom: 15px;
+}
+
 .cartItem img{
 	max-width: 150px; 
 	height: 100px;
+}
+
+.cartItem .addBtnHidden.modalAddBtn{
+	visibility: hidden;
+}
+
+.cartItem .removeBtnHidden.modalRemoveBtn{
+	visibility: hidden;
+}
+
+.modalCartQuantityText{
+	top: 35px;
 }
 
 .modalItemImg{
