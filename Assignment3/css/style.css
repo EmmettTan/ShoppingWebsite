@@ -163,25 +163,31 @@
 	height: 100px;
 }
 
-/*.modalItemImg{
-	float:right;
-}*/
-
-/*.modalAddBtn{
-    float: right;
-    display: inline-block;
-}*/
-
-.modalRemoveBtn{
-	float: right;
+.modalItemImg{
+	vertical-align: middle;
 }
 
+.modalAddBtn{
+    margin-top: 35px;
+}
+
+.modalRemoveBtn{
+	margin-top: 35px;
+}
+
+.modal-dialog .container {
+    width: auto;
+}
 
 /* set a max-width for horizontal fluid layout and make it centered */
 .container {
 	margin-right: auto;
  	margin-left: auto;
  	max-width: 1000px; /* or 950px */
+}
+
+.modalBody .container{
+	max-width: 768px;
 }
 
 .footer{
