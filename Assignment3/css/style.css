@@ -165,6 +165,10 @@
 .cartItem img{
 	max-width: 150px; 
 	height: 100px;
+
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .cartItem .addBtnHidden.modalAddBtn{
@@ -182,6 +186,8 @@
 .modalItemImg{
 	vertical-align: middle;
 }
+
+
 
 .modalAddBtn{
     margin-top: 35px;

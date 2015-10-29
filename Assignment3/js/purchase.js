@@ -6,7 +6,7 @@ var updateTimeRemainingTimer;
 var inactiveTime = 300000;
 var timeRemaining = inactiveTime;
 var cartTimeout = 3000;
-var enableTimeouts = false;
+var enableTimeouts = true;
 
 function init(){
 	products["Box1"] = {};
@@ -301,6 +301,7 @@ function updateCartPrice(){
 		cashTotal += products[key]["price"] * cart[key];
 	}
 	document.getElementById('cashTotalText').innerHTML = "$" + cashTotal;	
+	document.getElementById('modalCartPriceTotalText').textContent = "$" + cashTotal;
 }
 
 function updateAddBtnVisibility(){
