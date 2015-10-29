@@ -111,13 +111,119 @@ function updateInactiveTime(){
 	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000)
 }
 
+//TODO unnecessary, maybe
 function modalAddToCart(caller){
 	var key = getModalItemName(caller);
 	addToCart(key);
 }
 
+//TODO unnecessary, maybe
 function getModalItemName(caller){
 	return caller.parentNode.parentNode.getAttribute("item")
+}
+
+function testFunction(){
+
+	var resNode = createCartItem("Box1");
+
+
+
+	addItemToCartModal(resNode);
+}
+
+function addCartItemToModalWindow(item){
+	document.getElementById("cartModalForm").appendChild(createCartItem(item));
+}
+
+function createCartItem(item){
+	var resNode;
+
+	var imgNode = createImgWithItemKey(item);
+	var imgNodeDiv = createDivWithClass("col-xs-3");
+	imgNodeDiv.appendChild(imgNode);
+
+	var addNode = createModalAddToCartButtonForItem(item);
+	var addNodeDiv = createDivWithClass("col-xs-2");
+	addNodeDiv.appendChild(addNode);
+
+	var removeNode = createModalRemoveFromCartButtonForItem(item);
+	var removeNodeDiv = createDivWithClass("col-xs-2");
+	removeNodeDiv.appendChild(removeNode);
+
+	var qtyNode = document.createElement("span");
+	qtyNode.id = "modalItemQty-" + item;
+	qtyNode.textContent = 1;
+	var qtyNodeDiv = createDivWithClass("col-xs-5");
+	addClassToNode("modalCartQuantityText", qtyNodeDiv);
+	qtyNodeDiv.textContent = "Quantity: ";
+	qtyNodeDiv.appendChild(qtyNode);
+
+	resNode = createDivWithId("modalItem-" + item);
+	addClassToNode("row", resNode);
+	addClassToNode("cartItem", resNode);
+
+	resNode.appendChild(imgNodeDiv);
+	resNode.appendChild(qtyNodeDiv);
+	resNode.appendChild(addNodeDiv);
+	resNode.appendChild(removeNodeDiv);
+
+	return resNode;
+}
+
+function createModalAddToCartButtonForItem(item){
+	var resNode = createButtonWithId("modalAddBtn-" + item);
+	addClassToNode("modalAddBtn", resNode);
+	addClassToNode("btn-success", resNode);
+	addClassToNode("btn", resNode);
+	resNode.textContent="+";
+	resNode.onclick = createAddToCartFnForItem(item);
+	return resNode;
+}
+
+function createModalRemoveFromCartButtonForItem(item){
+	var resNode = createButtonWithId("modalAddBtn-" + item);
+	addClassToNode("modalRemoveBtn", resNode);
+	addClassToNode("btn-danger", resNode);
+	addClassToNode("btn", resNode);
+	resNode.textContent="-";
+	resNode.onclick = createRemoveFromCartFnForItem(item);
+	return resNode;
+}
+
+function addClassToNode(newClass, newNode){
+	newNode.classList.add(newClass);
+}
+
+function createDivWithId(nodeId){
+	var divNode = document.createElement("div");
+	divNode.id = nodeId;
+	return divNode;
+}
+
+function createDivWithClass(className){
+	var divNode = document.createElement("div");
+	divNode.classList.add(className);
+	return divNode;
+}
+
+function createImgWithItemKey(key){
+	var resNode = document.createElement("img");
+	addClassToNode("modalItemImg", resNode);
+	resNode.src = products[key]["src"];
+	resNode.alt = products[key]["src"];
+	return resNode;
+}
+
+function createButtonWithId(buttonId){
+	var buttonNode = document.createElement("button");
+	buttonNode.type="button";
+	buttonNode.id = buttonId;
+	return buttonNode;
+}
+
+function addItemToCartModal(node){
+
+	document.getElementById("cartModalForm").appendChild(node);
 }
 
 function addToCart(productName) {
@@ -129,8 +235,10 @@ function addToCart(productName) {
 	if (productInStock(productName)){
 		if(cart.hasOwnProperty(productName)){
 			cart[productName]++;
+			updateModalWindowQty(productName);
 		}else{
 			cart[productName] = 1;
+			addCartItemToModalWindow(productName);
 		}
 		products[productName]["quantity"]--;
 	}else{
@@ -149,6 +257,7 @@ function removeFromCart(productName){
 	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
 	if(cart.hasOwnProperty(productName)){
 		cart[productName]--;
+		updateModalWindowQty(productName);
 		if(cart[productName] == 0){
 			delete cart[productName];
 		}
@@ -159,6 +268,24 @@ function removeFromCart(productName){
 	updateCartPrice();
 	updateAddBtnVisibility();
 	updateRemoveBtnVisibility();
+}
+
+function updateModalWindowQty(productName){
+	document.getElementById("modalItemQty-" + productName).textContent = cart[productName];
+}
+
+function createAddToCartFnForItem(item){
+	var closure_item = item;
+	return function(){
+		addToCart(item);
+	}
+}
+
+function createRemoveFromCartFnForItem(item){
+	var closure_item = item;
+	return function(){
+		removeFromCart(item);
+	}
 }
 
 function modalRemoveFromCart(caller){
