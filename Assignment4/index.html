@@ -11,108 +11,111 @@
 		<!-- Latest compiled and minified CSS -->
 	    <link rel="stylesheet" href="css/bootstrap.min.css">
 
- 
+ 		<script src="js/angular.min.js" type="text/javascript"></script>
 		<script src="http://code.jquery.com/jquery-1.11.3.min.js" type="text/javascript"></script>
 		<script src="js/purchase.js" type="text/javascript"></script>
+
 		
     	
 	</head>
-	<!-- Modal -->
-	<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content container">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Cart Inventory</h4>
-	      </div>
-	      <div class="modal-body">
-	      	
+	<ngWrapper id="ngWrapper" ng-app="mainModule" ng-controller="cart-products-controller">
+		<!-- Modal -->
+		<div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content container">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Cart Inventory</h4>
+		      </div>
+		      <div class="modal-body">
+		      	
 
-	      	<form class="form-inline" id="cartModalForm" role="form">
-				
+		      	<form class="form-inline" id="cartModalForm" role="form">
+					
 
-	      	</form>
-	      </div>
-	      <div class="modal-footer">
-	      	<div class="row">
-	      		<div class="col-md-8" id="modalCartPriceTotal">
-	      			Total: <span id="modalCartPriceTotalText">$0</span>
-	      		</div>
-	      		<div class="col-md-1">
-		       		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-		   	 	</div>
-	      		<div class="col-md-3">
-		        	<button type="button" class="btn btn-primary">Checkout</button>
-		   	 	</div>
+		      	</form>
+		      </div>
+		      <div class="modal-footer">
+		      	<div class="row">
+		      		<div class="col-md-8" id="modalCartPriceTotal">
+		      			Total: <span id="modalCartPriceTotalText">$0</span>
+		      		</div>
+		      		<div class="col-md-1">
+			       		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			   	 	</div>
+		      		<div class="col-md-3">
+			        	<button type="button" class="btn btn-primary">Checkout</button>
+			   	 	</div>
+			    </div>
+		      </div>
 		    </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-	<body>
-
-		
-		<div class="container">
-			<div id="header">	
-				<div class="container">
-					<div class="col-xs-4" id="logo">
-						<img src="images/eceLogo.jpg"></img>
-					</div>
-					<div class ="col-xs-6" id="welcomeBanner">
-						<img src="images/eceWelcomeBanner.jpg"></img>
-					</div>
-					<div id="cartButton">
-						<button type="button" class="menuButton btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart <span id="cashTotalText"></span></button>
-					</div>
-				</div>
-			</div>
+		  </div>
 		</div>
+		<body>
 
-		
-		<div class="container">
-			<div id="mainContent">
-				<div class="container">
-					<div class="col-xs-2" id="navigationMenu">
-						<div class="col-xs-12">
-							<div class="menuItem">
-								<button type="button" onclick="testFunction()" class="menuButton btn btn-info">All Items</button>
-							</div><br>
-							<div class=" menuItem">
-								<button type="button" class="menuButton btn btn-info">Books</button>
-							</div><br>
-							<div class="menuItem">
-								<button type="button" class="menuButton btn btn-info">Clothing</button>
-							</div><br>
-							<div class="menuItem">
-								<button type="button" class="menuButton btn btn-info">Tech</button>
-							</div><br>
-							<div class="menuItem">
-								<button type="button" class="menuButton btn btn-info">Gifts</button>
-							</div><br>
-							<div class="menuItem">
-								<button type="button" class="menuButton btn btn-info">Stationary</button>
-							</div><br>
-							<div class="menuItem">
-								<button type="button" class="menuButton btn btn-info">Supplies</button>
-							</div><br>
+			
+			<div class="container">
+				<div id="header">	
+					<div class="container">
+						<div class="col-xs-4" id="logo">
+							<img src="images/eceLogo.jpg"></img>
+						</div>
+						<div class ="col-xs-6" id="welcomeBanner">
+							<img src="images/eceWelcomeBanner.jpg"></img>
+						</div>
+						<div id="cartButton">
+							<button type="button" class="menuButton btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart <span id="cashTotalText"></span></button>
 						</div>
 					</div>
-					<div class="col-xs-9" id="productList">
+				</div>
+			</div>
+
+			
+			<div class="container">
+				<div id="mainContent">
+					<div class="container">
+						<div class="col-xs-2" id="navigationMenu">
+							<div class="col-xs-12">
+								<div class="menuItem">
+									<button type="button" onclick="testFunction()" class="menuButton btn btn-info">All Items</button>
+								</div><br>
+								<div class=" menuItem">
+									<button type="button" class="menuButton btn btn-info">Books</button>
+								</div><br>
+								<div class="menuItem">
+									<button type="button" class="menuButton btn btn-info">Clothing</button>
+								</div><br>
+								<div class="menuItem">
+									<button type="button" class="menuButton btn btn-info">Tech</button>
+								</div><br>
+								<div class="menuItem">
+									<button type="button" class="menuButton btn btn-info">Gifts</button>
+								</div><br>
+								<div class="menuItem">
+									<button type="button" class="menuButton btn btn-info">Stationary</button>
+								</div><br>
+								<div class="menuItem">
+									<button type="button" class="menuButton btn btn-info">Supplies</button>
+								</div><br>
+							</div>
+						</div>
+						<div class="col-xs-9" id="productList">
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="container">
-			<footer class="footer" id="footer">
-				<div class="footerContent">
-					Emmett Tan || 
-					<span id="inactiveTimeText"></span>
-				</div>
-			</footer>
-		</div>
+			<div class="container">
+				<footer class="footer" id="footer">
+					<div class="footerContent">
+						Emmett Tan || {{inactiveTimeLeft}}
+						<span id="inactiveTimeText"></span>
+					</div>
+				</footer>
+			</div>
 
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	    <script src="js/bootstrap.min.js"></script>
-	</body>
+		    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		    <script src="js/bootstrap.min.js"></script>
+		</body>
+	</ngWrapper>
 	
 </html>

@@ -2,7 +2,7 @@ var cart = [];
 var products = [];
 var cashTotal = 0;
 var inactiveIntervalTimer;
-var inactiveTime = 300000;
+var inactiveTime = 3000;
 var cartTimeout = 3000;
 var enableTimeouts = false;
 var xhrTimeout = 5000;
@@ -10,6 +10,75 @@ var productsLoaded = false;
 var remoteServer = "https://cpen400a.herokuapp.com/products";
 var inflight = [];
 var cartOverlayUrl = "images/cart.png";
+
+//angularjs module init
+var mainModule = angular.module('mainModule', []);
+mainModule.controller('cart-products-controller', ['$scope', '$interval', function($scope, $interval){
+	$scope.inactiveTimeLeft = inactiveTime/1000;
+	var stop; //we assign the countdownFn interval to stop
+
+	
+	//Inactive Timeout Functions
+	$scope.startCountdown = function(){
+		if(angular.isDefined(stop))return; //don't start if already started
+		$scope.inactiveTimeLeft = inactiveTime/1000;
+		stop = $interval($scope.countdown, 1000);
+	}
+	$scope.countdown = function(){
+		if(!enableTimeouts) return;
+		$scope.inactiveTimeLeft -= 1;
+		if($scope.inactiveTimeLeft < 0){
+			$scope.displayTimeoutAlert();
+			$scope.resetCountdown();
+		}
+	}
+	$scope.displayTimeoutAlert = function(){
+		alert("Hey there! Are you still planning to buy something?");
+	}
+
+	$scope.resetCountdown = function(){
+		$scope.inactiveTimeLeft = inactiveTime/1000;
+	}
+
+	$scope.addToCart = function(productName) {
+		$scope.resetCountdown();
+		
+		if (productInStock(productName)){
+			if(cart.hasOwnProperty(productName)){
+				cart[productName]++;
+				updateModalWindowQty(productName);
+			}else{
+				cart[productName] = 1;
+				addCartItemToModalWindow(productName);
+			}
+			products[productName]["quantity"]--;
+		}else{
+			alert(productName + " is out of stock!");
+		}
+		updateCartPrice();
+		updateAddBtnVisibility();
+		updateRemoveBtnVisibility();
+	}
+
+	$scope.removeFromCart = function(productName){
+		$scope.resetCountdown();
+
+		if(cart.hasOwnProperty(productName)){
+			cart[productName]--;
+			updateModalWindowQty(productName);
+			if(cart[productName] == 0){
+				delete cart[productName];
+			}
+			products[productName]["quantity"]++;
+		}else{
+			alert("Item does not exist in cart.");
+		}
+		updateCartPrice();
+		updateAddBtnVisibility();
+		updateRemoveBtnVisibility();
+	}
+}]);
+
 
 function init(){
 	var xmlProductReq = requestCount(remoteServer, inflight);
@@ -63,62 +132,14 @@ var requestCount = function(msg, xhrBuffer){
 
 //run this once products have been initialized
 function productsReadyEvent(){
-	inactiveIntervalTimer = updateInactiveTime();
-	inactiveIntervalTimer.init();
+	var ngScope = angular.element(document.getElementById("ngWrapper")).scope();
+	ngScope.startCountdown();
 	document.getElementById('cashTotalText').innerHTML = "$" + cashTotal;
-	document.getElementById("inactiveTimeText").innerHTML = inactiveTime/1000 - 1;
 	if(!productsLoaded) addAllProductsToShoppingMenu();
 	updateAddBtnVisibility();
 	updateRemoveBtnVisibility();
 	updateCartPrice();
 }
-
-function updateInactiveTime(){
-	var timeRemaining = inactiveTime;
-	var intervalFn;
-	function cl_countdown(){
-		timeRemaining = timeRemaining - 1000;
-		document.getElementById("inactiveTimeText").textContent = timeRemaining/1000;
-		if(timeRemaining <= 0) {
-			cl_displayTimeoutAlert();
-			cl_reset();
-		}
-	}
-
-	function cl_reset(){
-		clearInterval(intervalFn);
-		timeRemaining = inactiveTime;
-		cl_init();
-	}
-
-	function cl_init(){
-			intervalFn = setInterval(cl_countdown, 1000);
-	}
-
-	function cl_displayTimeoutAlert(){
-		if(!enableTimeouts)return;
-		alert("Hey there! Are you still planning to buy something?");
-		cl_reset();
-		// clearInterval(timeoutAlertTimer);
-		// clearTimeout(updateTimeRemainingTimer);
-		// timeRemaining = inactiveTime;
-		// updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
-		// timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
-	
-	}
-
-	return{
-		init: 					function(){cl_init();},
-
-		reset: 					function(){cl_reset();},
-
-		count:   				function(){cl_countdown();},
-
-
-		displayTimeoutAlert: 	function(){cl_displayTimeoutAlert();}			
-	}
-}
-
 
 
 function testFunction(){
