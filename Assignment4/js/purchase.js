@@ -6,6 +6,7 @@ var inactiveTime = 300000;
 var cartTimeout = 3000;
 var enableTimeouts = false;
 var xhrTimeout = 5000;
+var productsLoaded = false;
 var remoteServer = "https://cpen400a.herokuapp.com/products";
 var inflight = [];
 var cartOverlayUrl = "images/cart.png";
@@ -66,7 +67,7 @@ function productsReadyEvent(){
 	inactiveIntervalTimer.init();
 	document.getElementById('cashTotalText').innerHTML = "$" + cashTotal;
 	document.getElementById("inactiveTimeText").innerHTML = inactiveTime/1000 - 1;
-	addAllProductsToShoppingMenu();
+	if(!productsLoaded) addAllProductsToShoppingMenu();
 	updateAddBtnVisibility();
 	updateRemoveBtnVisibility();
 	updateCartPrice();
@@ -156,7 +157,22 @@ function createCartItem(item){
 	var qtyNodeDiv = createDivWithClass("col-xs-5");
 	addClassToNode("modalCartQuantityText", qtyNodeDiv);
 	qtyNodeDiv.textContent = "Quantity: ";
+
+	var priceNode = document.createElement("span");
+	priceNode.id = "modalItemPrice-" + item;
+	priceNode.textContent = "Price: " + products[item]["price"];
+
+	var itemInfoChangesNode = document.createElement("span");
+	itemInfoChangesNode.id = "modalItemUpdates-" + item;
+	itemInfoChangesNode.textContent = "TODO";
+	var br = document.createElement("br");
 	qtyNodeDiv.appendChild(qtyNode);
+	qtyNodeDiv.appendChild(br);
+	br = document.createElement("br");
+	qtyNodeDiv.appendChild(priceNode);
+	qtyNodeDiv.appendChild(br);
+	qtyNodeDiv.appendChild(itemInfoChangesNode);
+
 
 	resNode = createDivWithId("modalItem-" + item);
 	addClassToNode("row", resNode);
