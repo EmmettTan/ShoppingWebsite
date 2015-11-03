@@ -4,19 +4,19 @@ var cashTotal = 0;
 var inactiveIntervalTimer;
 var inactiveTime = 300000;
 var cartTimeout = 3000;
-var enableTimeouts = true;
+var enableTimeouts = false;
 var xhrTimeout = 5000;
 var remoteServer = "https://cpen400a.herokuapp.com/products";
 var inflight = [];
+var cartOverlayUrl = "images/cart.png";
 
 function init(){
-	
 	var xmlProductReq = requestCount(remoteServer, inflight);
 	xmlProductReq();
 }
 
 var requestCount = function(msg, xhrBuffer){
-	console.log("test");
+	console.log("Sending request to server: " + remoteServer);
 	var count = 0;
 	return function(){
 		var xhr = new XMLHttpRequest();
@@ -26,7 +26,7 @@ var requestCount = function(msg, xhrBuffer){
 			if(xhr.status == 200){
 				console.log(xhr.getResponseHeader("Content-type"));
 				if(xhr.getResponseHeader("Content-type") == 'application/json; charset=utf-8'){
-					//products = JSON.parse(xhr.responseText);
+					products = JSON.parse(xhr.responseText);
 					console.log(products);
 					productsReadyEvent();
 				}else{
@@ -117,26 +117,19 @@ function updateInactiveTime(){
 	}
 }
 
-//TODO unnecessary, maybe
-function modalAddToCart(caller){
-	var key = getModalItemName(caller);
-	addToCart(key);
-}
 
-//TODO unnecessary, maybe
-function getModalItemName(caller){
-	return caller.parentNode.parentNode.getAttribute("item")
-}
 
 function testFunction(){
 
-	var resNode = createCartItem("Box1");
+	var resNode = createProductItem("Box1");
 
 
 
 	addItemToCartModal(resNode);
 }
 
+
+//functions to add an item to the modal window after user adds an item to cart
 function addCartItemToModalWindow(item){
 	document.getElementById("cartModalForm").appendChild(createCartItem(item));
 }
@@ -144,7 +137,7 @@ function addCartItemToModalWindow(item){
 function createCartItem(item){
 	var resNode;
 
-	var imgNode = createImgWithItemKey(item);
+	var imgNode = createModalImgWithItemKey(item);
 	var imgNodeDiv = createDivWithClass("col-xs-3");
 	imgNodeDiv.appendChild(imgNode);
 
@@ -196,6 +189,77 @@ function createModalRemoveFromCartButtonForItem(item){
 	return resNode;
 }
 
+
+//functions to create a product item on the main shopping menu
+function addProductItemToMenu(item){
+	document.getElementById("cartModalForm").appendChild(createCartItem(item));
+}
+
+function createProductItem(item){
+	var resNode;
+
+	var imgNode = createImgTagWithUrl(products[item]["url"]);
+	var imgNodeDiv = createDivWithClass("productImg");
+	imgNodeDiv.appendChild(imgNode);
+
+	var addNode = createProductAddToCartButtonForItem(item);
+	var addNodeDiv = createDivWithClass("addBtn");
+	addNodeDiv.appendChild(addNode);
+
+	var removeNode = createProductRemoveFromCartButtonForItem(item);
+	var removeNodeDiv = createDivWithClass("removeBtn");
+	removeNodeDiv.appendChild(removeNode);
+
+	var cartOverlayImg = createImgTagWithUrl(cartOverlayUrl);
+	var cartOverlayDiv = createDivWithClass("cartOverlay");
+	cartOverlayDiv.appendChild(cartOverlayImg);
+
+	var img_container = createDivWithId(item);
+	addClassToNode("img-container", img_container);
+
+	var priceLabelDiv = createDivWithClass("priceLabel");
+	priceLabelDiv.textContent = "$" + products[item]["price"];
+
+
+	var itemNameDiv = createDivWithClass("itemName");
+	itemNameDiv.textContent = item;
+
+
+	img_container.appendChild(imgNodeDiv);
+	img_container.appendChild(cartOverlayDiv);
+	img_container.appendChild(addNodeDiv);
+	img_container.appendChild(removeNodeDiv);
+
+	resNode = createDivWithClass("product");
+	addClassToNode("col-xs-4", resNode);
+
+	resNode.appendChild(img_container);
+	resNode.appendChild(priceLabelDiv);
+	resNode.appendChild(itemNameDiv);
+
+	return resNode;
+}
+
+function createProductAddToCartButtonForItem(item){
+	var resNode = document.createElement("button");
+	addClassToNode("btn-success", resNode);
+	addClassToNode("btn", resNode);
+	resNode.textContent="Add";
+	resNode.onclick = createAddToCartFnForItem(item);
+	resNode.type = "button";
+	return resNode;
+}
+
+function createProductRemoveFromCartButtonForItem(item){
+	var resNode = document.createElement("button");
+	addClassToNode("btn-danger", resNode);
+	addClassToNode("btn", resNode);
+	resNode.textContent="Remove";
+	resNode.onclick = createRemoveFromCartFnForItem(item);
+	resNode.type = "button";
+	return resNode;
+}
+
 function addClassToNode(newClass, newNode){
 	newNode.classList.add(newClass);
 }
@@ -212,11 +276,19 @@ function createDivWithClass(className){
 	return divNode;
 }
 
-function createImgWithItemKey(key){
+function createModalImgWithItemKey(key){
 	var resNode = document.createElement("img");
 	addClassToNode("modalItemImg", resNode);
-	resNode.src = products[key]["src"];
-	resNode.alt = products[key]["src"];
+	resNode.src = products[key]["url"];
+	resNode.alt = products[key]["url"];
+	return resNode;
+}
+
+//create a shopping menu item img
+function createImgTagWithUrl(url){
+	var resNode = document.createElement("img");
+	resNode.src = url;
+	resNode.alt = url;
 	return resNode;
 }
 
@@ -229,7 +301,7 @@ function createButtonWithId(buttonId){
 
 function addItemToCartModal(node){
 
-	document.getElementById("cartModalForm").appendChild(node);
+	document.getElementById("test123").appendChild(node);
 }
 
 function addToCart(productName) {
@@ -286,19 +358,12 @@ function createRemoveFromCartFnForItem(item){
 	}
 }
 
-function modalRemoveFromCart(caller){
-	var key = getModalItemName(caller);
-	removeFromCart(key);
-}
-
 
 function updateCartPrice(){
 	var key;
 	var cashTotal = 0;
-	if(!cart.length == 0){
-		for(key in cart){
-			cashTotal += products[key]["price"] * cart[key];
-		}
+	for(key in cart){
+		cashTotal += products[key]["price"] * cart[key];
 	}
 	document.getElementById('cashTotalText').innerHTML = "$" + cashTotal;	
 	document.getElementById('modalCartPriceTotalText').textContent = "$" + cashTotal;
@@ -336,7 +401,7 @@ function updateRemoveBtnVisibility(){
 
 function removeElementById(el){
 	if(!document.getElementById(el)) {
-		console.log("removeElementById(" + el + ") does not exist.");
+		//console.log("removeElementById(" + el + ") does not exist.");
 		return;
 	}
 	var parent = document.getElementById(el).parentNode;
