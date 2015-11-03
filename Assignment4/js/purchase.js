@@ -1,10 +1,8 @@
 var cart = [];
 var products = [];
 var cashTotal = 0;
-var timeoutAlertTimer;
-var updateTimeRemainingTimer;
+var inactiveIntervalTimer;
 var inactiveTime = 300000;
-var timeRemaining = inactiveTime;
 var cartTimeout = 3000;
 var enableTimeouts = true;
 var xhrTimeout = 5000;
@@ -12,68 +10,6 @@ var remoteServer = "https://cpen400a.herokuapp.com/products";
 var inflight = [];
 
 function init(){
-	// products["Box1"] = {};
-	// products["Box2"] = {};
-	// products["Clothes1"] = {};
-	// products["Clothes2"] = {};
-	// products["Jeans"] = {};
-	// products["Keyboard"] = {};
-	// products["KeyboardCombo"] = {};
-	// products["Mice"] = {};
-	// products["PC1"] = {};
-	// products["PC2"] = {};
-	// products["PC3"] = {};
-	// products["Tent"] = {};
-
-	// products["Box1"]["quantity"] = 5;
-	// products["Box1"]["price"] = 10;
-	// products["Box1"]["src"] = "images/Box1_$10.png";
-
-
-	// products["Box2"]["quantity"] = 5;
-	// products["Box2"]["price"] = 20;
-	// products["Box2"]["src"] = "images/Box2_$20.png";
-
-	// products["Clothes1"]["quantity"] = 5;
-	// products["Clothes1"]["price"] = 20;
-	// products["Clothes1"]["src"] = "images/Clothes1_$20.png";
-
-	// products["Clothes2"]["quantity"] = 5;
-	// products["Clothes2"]["price"] = 30;
-	// products["Clothes2"]["src"] = "images/Clothes2_$30.png";
-
-	// products["Jeans"]["quantity"] = 5;
-	// products["Jeans"]["price"] = 50;
-	// products["Jeans"]["src"] = "images/Jeans_$50.png";
-
-	// products["Keyboard"]["quantity"] = 5;
-	// products["Keyboard"]["price"] = 20;
-	// products["Keyboard"]["src"] = "images/Keyboard_$20.png";
-
-	// products["KeyboardCombo"]["quantity"] = 5;
-	// products["KeyboardCombo"]["price"] = 40;
-	// products["KeyboardCombo"]["src"] = "images/KeyboardCombo_$40.png";
-
-	// products["Mice"]["quantity"] = 5;
-	// products["Mice"]["price"] = 20;
-	// products["Mice"]["src"] = "images/Mice_$20.png";
-
-	// products["PC1"]["quantity"] = 5;
-	// products["PC1"]["price"] = 350;
-	// products["PC1"]["src"] = "images/PC1_$350.png";
-
-	// products["PC2"]["quantity"] = 5;
-	// products["PC2"]["price"] = 400;
-	// products["PC2"]["src"] = "images/PC2_$400.png";
-
-	// products["PC3"]["quantity"] = 5;
-	// products["PC3"]["price"] = 300;
-	// products["PC3"]["src"] = "images/PC3_$300.png";
-
-	// products["Tent"]["quantity"] = 5;
-	// products["Tent"]["price"] = 100;
-	// products["Tent"]["src"] = "images/Tent_$100.png";
-
 	
 	var xmlProductReq = requestCount(remoteServer, inflight);
 	xmlProductReq();
@@ -90,9 +26,9 @@ var requestCount = function(msg, xhrBuffer){
 			if(xhr.status == 200){
 				console.log(xhr.getResponseHeader("Content-type"));
 				if(xhr.getResponseHeader("Content-type") == 'application/json; charset=utf-8'){
-					products = JSON.parse(xhr.responseText);
+					//products = JSON.parse(xhr.responseText);
 					console.log(products);
-					productsLoadedEvent();
+					productsReadyEvent();
 				}else{
 					console.log("responseText is not of type JSON: " + xhr.responseText);
 				}
@@ -125,47 +61,60 @@ var requestCount = function(msg, xhrBuffer){
 }
 
 //run this once products have been initialized
-function productsLoadedEvent(){
-	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
-	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
+function productsReadyEvent(){
+	inactiveIntervalTimer = updateInactiveTime();
+	inactiveIntervalTimer.init();
 	document.getElementById('cashTotalText').innerHTML = "$" + cashTotal;
-	document.getElementById("inactiveTimeText").innerHTML = timeRemaining/1000 - 1;
+	document.getElementById("inactiveTimeText").innerHTML = inactiveTime/1000 - 1;
 	updateAddBtnVisibility();
 	updateRemoveBtnVisibility();
 	updateCartPrice();
 }
 
-
-function displayTimeoutAlert(){
-	if(!enableTimeouts)return;
-	alert("Hey there! Are you still planning to buy something?");
-	clearTimeout(timeoutAlertTimer);
-	clearTimeout(updateTimeRemainingTimer);
-	timeRemaining = inactiveTime;
-	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
-	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
-}
-
-var CartDisplayAlert = function(time, tempProductName){
-	
-	var productName = tempProductName;
-	var timeout = time;
-
-	return{
-		init: function(){setTimeout(this.popupCartAlert, timeout);},
-		popupCartAlert: function(){	
-			alert(productName + ": " + cart[productName]);
-			clearTimeout(timeoutAlertTimer);
-			timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
+function updateInactiveTime(){
+	var timeRemaining = inactiveTime;
+	var intervalFn;
+	function cl_countdown(){
+		timeRemaining = timeRemaining - 1000;
+		document.getElementById("inactiveTimeText").textContent = timeRemaining/1000;
+		if(timeRemaining <= 0) {
+			cl_displayTimeoutAlert();
+			cl_reset();
 		}
 	}
-}
 
-function updateInactiveTime(){
-	if(!enableTimeouts) return;
-	timeRemaining = timeRemaining - 1000;
-	document.getElementById("inactiveTimeText").innerHTML = timeRemaining/1000 - 1;
-	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000)
+	function cl_reset(){
+		clearInterval(intervalFn);
+		timeRemaining = inactiveTime;
+		cl_init();
+	}
+
+	function cl_init(){
+			intervalFn = setInterval(cl_countdown, 1000);
+	}
+
+	function cl_displayTimeoutAlert(){
+		if(!enableTimeouts)return;
+		alert("Hey there! Are you still planning to buy something?");
+		cl_reset();
+		// clearInterval(timeoutAlertTimer);
+		// clearTimeout(updateTimeRemainingTimer);
+		// timeRemaining = inactiveTime;
+		// updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
+		// timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
+	
+	}
+
+	return{
+		init: 					function(){cl_init();},
+
+		reset: 					function(){cl_reset();},
+
+		count:   				function(){cl_countdown();},
+
+
+		displayTimeoutAlert: 	function(){cl_displayTimeoutAlert();}			
+	}
 }
 
 //TODO unnecessary, maybe
@@ -284,11 +233,7 @@ function addItemToCartModal(node){
 }
 
 function addToCart(productName) {
-	clearTimeout(timeoutAlertTimer);
-	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
-	timeRemaining = inactiveTime;
-	clearTimeout(updateTimeRemainingTimer);
-	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
+	inactiveIntervalTimer.reset();
 	if (productInStock(productName)){
 		if(cart.hasOwnProperty(productName)){
 			cart[productName]++;
@@ -307,11 +252,7 @@ function addToCart(productName) {
 }
 
 function removeFromCart(productName){
-	clearTimeout(timeoutAlertTimer);
-	timeoutAlertTimer = setTimeout(displayTimeoutAlert, inactiveTime);
-	timeRemaining = inactiveTime;
-	clearTimeout(updateTimeRemainingTimer);
-	updateTimeRemainingTimer = setTimeout(updateInactiveTime, 1000);
+	inactiveIntervalTimer.reset();
 	if(cart.hasOwnProperty(productName)){
 		cart[productName]--;
 		updateModalWindowQty(productName);
@@ -410,21 +351,8 @@ function itemExistsInCart(productName){
 	return(cart.hasOwnProperty(productName));
 }
 
-function displayCart(){
-	var cartTime = cartTimeout;
-	var cartAlerts = [];
-	if (Object.keys(cart).length == 0){
-		alert("Cart is Empty");
-		return;
-	}
-	var i = 0;
-	for(var key in cart){
-		console.log(i);
-		cartAlerts[i] = CartDisplayAlert(cartTime*i, key);
-		cartAlerts[i].init();
-		i++;
-	}
-}
+
+
 
 function cartAlert(productName){
 	alert(productName + ": " + cart[productName]);
