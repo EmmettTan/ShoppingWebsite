@@ -66,6 +66,7 @@ function productsReadyEvent(){
 	inactiveIntervalTimer.init();
 	document.getElementById('cashTotalText').innerHTML = "$" + cashTotal;
 	document.getElementById("inactiveTimeText").innerHTML = inactiveTime/1000 - 1;
+	addAllProductsToShoppingMenu();
 	updateAddBtnVisibility();
 	updateRemoveBtnVisibility();
 	updateCartPrice();
@@ -189,10 +190,21 @@ function createModalRemoveFromCartButtonForItem(item){
 	return resNode;
 }
 
-
-//functions to create a product item on the main shopping menu
-function addProductItemToMenu(item){
-	document.getElementById("cartModalForm").appendChild(createCartItem(item));
+function addAllProductsToShoppingMenu(){
+	var itemCount = 0;
+	var productList = document.getElementById("productList");
+	var productRow = createDivWithClass("row");
+	addClassToNode("productRow", productRow);
+	for(var key in products){
+		var productItem = createProductItem(key);
+		productRow.appendChild(productItem);
+		if(itemCount != 0 && itemCount/3 == 0){
+			productList.appendChild(productRow);
+			productRow = createDivWithClass("row");
+			addClassToNode("productRow", productRow);			
+		}
+	}
+	productList.appendChild(productRow);
 }
 
 function createProductItem(item){
