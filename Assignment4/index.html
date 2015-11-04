@@ -31,7 +31,22 @@
 		      	
 
 		      	<form class="form-inline" id="cartModalForm" role="form">
-					
+					<div ng-repeat="(key, value) in cart" class="row cartItem">
+						<div class="col-xs-3">
+							<img class="modalItemImg" ng-src="{{products[key]['url']}}" alt="{{products[key]['url']}}">
+						</div>
+						<div class="col-xs-5 modalCartQuantityText">
+							Quantity: {{value}} <br>
+							Price: ${{products[key]["price"]}} <br>
+							<span>TODO</span>
+						</div>
+						<div class="col-xs-2">
+							<button type="button" class="modalAddBtn btn-success btn" ng-click="addToCart(key)" ng-class="{'addBtnHidden': !productInStock(key)}">+</button>
+						</div>
+						<div class="col-xs-2">
+							<button type="button" class="modalRemoveBtn btn-danger btn" ng-click="removeFromCart(key)" ng-class="{'removeBtnHidden': !itemExistsInCart(key)}">-</button>
+						</div>
+					</div>
 
 		      	</form>
 		      </div>
@@ -104,10 +119,10 @@
 								<div ng-repeat="product in products | filterProductsArray" ng-if="$index < getNumProducts()" class="col-xs-4 product">
 									<div class="img-container" ng-class="{'addBtnHidden': !productInStock(product.key), 'removeBtnHidden': !itemExistsInCart(product.key)}"  id="product.key">
 										<div class="productImg">
-											<img src="{{product.url}}" alt="{{product.url}}">
+											<img ng-src="{{product.url}}" alt="{{product.url}}">
 										</div>
 										<div class="cartOverlay">
-											<img src="images/cart.png" alt="images/cart.png">
+											<img ng-src="images/cart.png" alt="images/cart.png">
 										</div>
 										<div class="addBtn">
 											<button ng-click="addToCart(product.key)" type="button" class="btn btn-success">Add</button>

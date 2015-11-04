@@ -5,7 +5,7 @@ var inactiveIntervalTimer;
 var inactiveTime = 3000;
 var cartTimeout = 3000;
 var enableTimeouts = false;
-var xhrTimeout = 5000;
+var xhrTimeout = 200;
 var productsLoaded = false;
 var remoteServer = "https://cpen400a.herokuapp.com/products";
 var inflight = [];
@@ -22,67 +22,67 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 	var stop; //we assign the countdownFn interval to stop
 
 	//TODO, REMOVE THIS AND REPLACE WITH XMLHTTPREQUEST 
-	$scope.products["Box1"] = {};
-	$scope.products["Box2"] = {};
-	$scope.products["Clothes1"] = {};
-	$scope.products["Clothes2"] = {};
-	$scope.products["Jeans"] = {};
-	$scope.products["Keyboard"] = {};
-	$scope.products["KeyboardCombo"] = {};
-	$scope.products["Mice"] = {};
-	$scope.products["PC1"] = {};
-	$scope.products["PC2"] = {};
-	$scope.products["PC3"] = {};
-	$scope.products["Tent"] = {};
+	// $scope.products["Box1"] = {};
+	// $scope.products["Box2"] = {};
+	// $scope.products["Clothes1"] = {};
+	// $scope.products["Clothes2"] = {};
+	// $scope.products["Jeans"] = {};
+	// $scope.products["Keyboard"] = {};
+	// $scope.products["KeyboardCombo"] = {};
+	// $scope.products["Mice"] = {};
+	// $scope.products["PC1"] = {};
+	// $scope.products["PC2"] = {};
+	// $scope.products["PC3"] = {};
+	// $scope.products["Tent"] = {};
 
-	$scope.products["Box1"]["quantity"] = 5;
-	$scope.products["Box1"]["price"] = 10;
-	$scope.products["Box1"]["url"] = "images/Box1_$10.png";
+	// $scope.products["Box1"]["quantity"] = 5;
+	// $scope.products["Box1"]["price"] = 10;
+	// $scope.products["Box1"]["url"] = "images/Box1_$10.png";
 
 
-	$scope.products["Box2"]["quantity"] = 5;
-	$scope.products["Box2"]["price"] = 20;
-	$scope.products["Box2"]["url"] = "images/Box2_$20.png";
+	// $scope.products["Box2"]["quantity"] = 5;
+	// $scope.products["Box2"]["price"] = 20;
+	// $scope.products["Box2"]["url"] = "images/Box2_$20.png";
 
-	$scope.products["Clothes1"]["quantity"] = 5;
-	$scope.products["Clothes1"]["price"] = 20;
-	$scope.products["Clothes1"]["url"] = "images/Clothes1_$20.png";
+	// $scope.products["Clothes1"]["quantity"] = 5;
+	// $scope.products["Clothes1"]["price"] = 20;
+	// $scope.products["Clothes1"]["url"] = "images/Clothes1_$20.png";
 
-	$scope.products["Clothes2"]["quantity"] = 5;
-	$scope.products["Clothes2"]["price"] = 30;
-	$scope.products["Clothes2"]["url"] = "images/Clothes2_$30.png";
+	// $scope.products["Clothes2"]["quantity"] = 5;
+	// $scope.products["Clothes2"]["price"] = 30;
+	// $scope.products["Clothes2"]["url"] = "images/Clothes2_$30.png";
 
-	$scope.products["Jeans"]["quantity"] = 5;
-	$scope.products["Jeans"]["price"] = 50;
-	$scope.products["Jeans"]["url"] = "images/Jeans_$50.png";
+	// $scope.products["Jeans"]["quantity"] = 5;
+	// $scope.products["Jeans"]["price"] = 50;
+	// $scope.products["Jeans"]["url"] = "images/Jeans_$50.png";
 
-	$scope.products["Keyboard"]["quantity"] = 5;
-	$scope.products["Keyboard"]["price"] = 20;
-	$scope.products["Keyboard"]["url"] = "images/Keyboard_$20.png";
+	// $scope.products["Keyboard"]["quantity"] = 5;
+	// $scope.products["Keyboard"]["price"] = 20;
+	// $scope.products["Keyboard"]["url"] = "images/Keyboard_$20.png";
 
-	$scope.products["KeyboardCombo"]["quantity"] = 5;
-	$scope.products["KeyboardCombo"]["price"] = 40;
-	$scope.products["KeyboardCombo"]["url"] = "images/KeyboardCombo_$40.png";
+	// $scope.products["KeyboardCombo"]["quantity"] = 5;
+	// $scope.products["KeyboardCombo"]["price"] = 40;
+	// $scope.products["KeyboardCombo"]["url"] = "images/KeyboardCombo_$40.png";
 
-	$scope.products["Mice"]["quantity"] = 5;
-	$scope.products["Mice"]["price"] = 20;
-	$scope.products["Mice"]["url"] = "images/Mice_$20.png";
+	// $scope.products["Mice"]["quantity"] = 5;
+	// $scope.products["Mice"]["price"] = 20;
+	// $scope.products["Mice"]["url"] = "images/Mice_$20.png";
 
-	$scope.products["PC1"]["quantity"] = 5;
-	$scope.products["PC1"]["price"] = 350;
-	$scope.products["PC1"]["url"] = "images/PC1_$350.png";
+	// $scope.products["PC1"]["quantity"] = 5;
+	// $scope.products["PC1"]["price"] = 350;
+	// $scope.products["PC1"]["url"] = "images/PC1_$350.png";
 
-	$scope.products["PC2"]["quantity"] = 5;
-	$scope.products["PC2"]["price"] = 400;
-	$scope.products["PC2"]["url"] = "images/PC2_$400.png";
+	// $scope.products["PC2"]["quantity"] = 5;
+	// $scope.products["PC2"]["price"] = 400;
+	// $scope.products["PC2"]["url"] = "images/PC2_$400.png";
 
-	$scope.products["PC3"]["quantity"] = 5;
-	$scope.products["PC3"]["price"] = 300;
-	$scope.products["PC3"]["url"] = "images/PC3_$300.png";
+	// $scope.products["PC3"]["quantity"] = 5;
+	// $scope.products["PC3"]["price"] = 300;
+	// $scope.products["PC3"]["url"] = "images/PC3_$300.png";
 
-	$scope.products["Tent"]["quantity"] = 5;
-	$scope.products["Tent"]["price"] = 100;
-	$scope.products["Tent"]["url"] = "images/Tent_$100.png";
+	// $scope.products["Tent"]["quantity"] = 5;
+	// $scope.products["Tent"]["price"] = 100;
+	// $scope.products["Tent"]["url"] = "images/Tent_$100.png";
 	//
 	console.log($scope.products);
 
@@ -175,17 +175,16 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 
 mainModule.filter('filterProductsArray', function(){
 	return function(items, field){
-		var count = 0;
 		var filtered = [];
 		angular.forEach(items, function(item, key){
-			count++
 			item["key"]=key;
 			filtered.push(item);
 		});
-		filtered["count"] = count;
 		return filtered;
 	}
 });
+
+
 
 
 // mainModule.filter('filterProductsArray', function(){
@@ -219,8 +218,8 @@ var requestCount = function(msg, xhrBuffer){
 			if(xhr.status == 200){
 				console.log(xhr.getResponseHeader("Content-type"));
 				if(xhr.getResponseHeader("Content-type") == 'application/json; charset=utf-8'){
-					//TODO UNCOMMENT products = JSON.parse(xhr.responseText);
-					console.log(products);
+					var ngScope = angular.element(document.getElementById("ngWrapper")).scope();
+					ngScope.products = JSON.parse(xhr.responseText);
 					productsReadyEvent();
 				}else{
 					console.log("responseText is not of type JSON: " + xhr.responseText);
@@ -258,11 +257,8 @@ function productsReadyEvent(){
 	var ngScope = angular.element(document.getElementById("ngWrapper")).scope();
 	ngScope.startCountdown();
 	document.getElementById('cashTotalText').innerHTML = "$" + cashTotal;
-	//TODO UNCOMMENT
-	//if(!productsLoaded) addAllProductsToShoppingMenu();
-	//updateAddBtnVisibility();
-	//updateRemoveBtnVisibility();
-	updateCartPrice();
+	// if(!productsLoaded) addAllProductsToShoppingMenu();
+
 }
 
 
