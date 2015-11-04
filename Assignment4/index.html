@@ -99,7 +99,63 @@
 								</div><br>
 							</div>
 						</div>
-						<div class="col-xs-9" id="productList">
+						<div class="col-xs-9" id="productList" ng-model="products">
+							<div class="row productRow">
+								<div class="col-xs-4 product">
+									<div class="img-container" ng-class="{'addBtnHidden': !productInStock('Box1')}"  id="Box1">
+										<div class="productImg">
+											<img src="images/Box1_$10.png" alt="images/Box1_$10.png">
+										</div>
+										<div class="cartOverlay">
+											<img src="images/cart.png" alt="images/cart.png">
+										</div>
+										<div class="addBtn">
+											<button onclick="addToCart('Box1')" type="button" class="btn btn-success">Add</button>
+										</div>
+										<div class="removeBtn">
+											<button onclick="removeFromCart('Box1')" type="button" class="btn btn-danger">Remove</button>
+										</div>
+									</div>
+									<div class="priceLabel">$10</div><br>
+									<div class="itemName">Box1</div>
+								</div>
+								<div class="col-xs-4 product">
+									<div class="img-container" id="Box2">
+										<div class="productImg">
+											<img src="images/Box2_$20.png" alt="images/Box2_$20.png">
+										</div>
+										<div class="cartOverlay">
+											<img src="images/cart.png" alt="images/cart.png">
+										</div>
+										<div class="addBtn">
+											<button onclick="addToCart('Box2')" type="button" class="btn btn-success">Add</button>
+										</div>
+										<div class="removeBtn">
+											<button onclick="removeFromCart('Box2')" type="button" class="btn btn-danger">Remove</button>
+										</div>
+									</div>
+									<div class="priceLabel">$20</div><br>
+									<div class="itemName">Box2</div>
+								</div>
+								<div class="col-xs-4 product">
+									<div class="img-container" id="Clothes1">
+										<div class="productImg">
+											<img src="images/Clothes1_$20.png" alt="images/Clothes1_$20.png">
+										</div>
+										<div class="cartOverlay">
+											<img src="images/cart.png" alt="images/cart.png">
+										</div>
+										<div class="addBtn">
+											<button onclick="addToCart('Clothes1')" type="button" class="btn btn-success">Add</button>
+										</div>
+										<div class="removeBtn">
+											<button onclick="removeFromCart('Clothes1')" type="button" class="btn btn-danger">Remove</button>
+										</div>
+									</div>
+									<div class="priceLabel">$20</div><br>
+									<div class="itemName">Clothes1</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
