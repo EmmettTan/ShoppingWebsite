@@ -1,6 +1,4 @@
 # CPEN400A Assignments Folder
-*Authors:* Emmett Tan, Justin B. Siu
+*Authors:* Emmett Tan
 
 *Date:* September 22, 2015
-
-
