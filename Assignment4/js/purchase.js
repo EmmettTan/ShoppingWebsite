@@ -16,8 +16,8 @@ var mainModule = angular.module('mainModule', []);
 mainModule.controller('cart-products-controller', ['$scope', '$interval', function($scope, $interval){
 	$scope.inactiveTimeLeft = inactiveTime/1000;
 	
-	$scope.cart = [];
-	$scope.products = [];
+	$scope.cart = {};
+	$scope.products = {};
 	$scope.cashTotal = 0;
 	var stop; //we assign the countdownFn interval to stop
 
@@ -35,7 +35,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 	$scope.products["PC3"] = {};
 	$scope.products["Tent"] = {};
 
-	$scope.products["Box1"]["quantity"] = 1;
+	$scope.products["Box1"]["quantity"] = 5;
 	$scope.products["Box1"]["price"] = 10;
 	$scope.products["Box1"]["url"] = "images/Box1_$10.png";
 
@@ -83,8 +83,8 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 	$scope.products["Tent"]["quantity"] = 5;
 	$scope.products["Tent"]["price"] = 100;
 	$scope.products["Tent"]["url"] = "images/Tent_$100.png";
-
 	//
+	console.log($scope.products);
 
 	//Cart and product functions
 	$scope.addToCart = function(productName) {
@@ -103,40 +103,38 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 			alert(productName + " is out of stock!");
 		}
 		$scope.updateCartPrice();
-		updateAddBtnVisibility();
-		updateRemoveBtnVisibility();
 	}
 
 	$scope.removeFromCart = function(productName){
 		$scope.resetCountdown();
 
-		if(cart.hasOwnProperty(productName)){
+		if($scope.cart.hasOwnProperty(productName)){
 			$scope.cart[productName]--;
-			updateModalWindowQty(productName);
-			if(cart[productName] == 0){
-				delete cart[productName];
+			//TODO replace with two way binding updateModalWindowQty(productName);
+			if($scope.cart[productName] == 0){
+				delete $scope.cart[productName];
 			}
-			products[productName]["quantity"]++;
+			$scope.products[productName]["quantity"]++;
 		}else{
 			alert("Item does not exist in cart.");
 		}
-		updateCartPrice();
-		updateAddBtnVisibility();
-		updateRemoveBtnVisibility();
+		$scope.updateCartPrice();
 	}
 
-	$scope.trueshit = function(test){
-		console.log(test);
-		return false;
-	}
 
 	$scope.productInStock = function(productName){
 		return($scope.products[productName]["quantity"] > 0);
 	}
 
 	$scope.itemExistsInCart = function(productName){
-		return(cart.hasOwnProperty(productName));
+		return($scope.cart.hasOwnProperty(productName));
 	}
+
+	$scope.getNumProducts = function(){
+		return Object.keys($scope.products).length;
+	}
+
+	console.log($scope.getNumProducts());
 
 	$scope.updateCartPrice = function(){
 		var key;
@@ -174,6 +172,35 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 
 
 }]);
+
+mainModule.filter('filterProductsArray', function(){
+	return function(items, field){
+		var count = 0;
+		var filtered = [];
+		angular.forEach(items, function(item, key){
+			count++
+			item["key"]=key;
+			filtered.push(item);
+		});
+		filtered["count"] = count;
+		return filtered;
+	}
+});
+
+
+// mainModule.filter('filterProductsArray', function(){
+// 	return function(items, field){
+// 		var filtered = [];
+// 		angular.forEach(items, function(item, key){
+// 			item["key"]=key;
+// 			filtered.push(item);
+// 		});
+// 		filtered.sort(function(a, b){
+// 			return (a[field] > b[field] ? 1 : -1);
+// 		});
+// 		return filtered;
+// 	}
+// });
 
 
 function init(){
@@ -451,6 +478,7 @@ function addItemToCartModal(node){
 }
 
 function addToCart(productName) {
+	console.log(productName);
 	if (productInStock(productName)){
 		if(cart.hasOwnProperty(productName)){
 			cart[productName]++;

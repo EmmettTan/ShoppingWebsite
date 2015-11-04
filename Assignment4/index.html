@@ -64,7 +64,7 @@
 							<img src="images/eceWelcomeBanner.jpg"></img>
 						</div>
 						<div id="cartButton">
-							<button type="button" class="menuButton btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart <span id="cashTotalText"></span></button>
+							<button type="button" class="menuButton btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart <span id="cashTotalText">${{cashTotal}}</span></button>
 						</div>
 					</div>
 				</div>
@@ -99,61 +99,25 @@
 								</div><br>
 							</div>
 						</div>
-						<div class="col-xs-9" id="productList" ng-model="products">
+						<div class="col-xs-9" id="productList">
 							<div class="row productRow">
-								<div class="col-xs-4 product">
-									<div class="img-container" ng-class="{'addBtnHidden': !productInStock('Box1')}"  id="Box1">
+								<div ng-repeat="product in products | filterProductsArray" ng-if="$index < getNumProducts()" class="col-xs-4 product">
+									<div class="img-container" ng-class="{'addBtnHidden': !productInStock(product.key), 'removeBtnHidden': !itemExistsInCart(product.key)}"  id="product.key">
 										<div class="productImg">
-											<img src="images/Box1_$10.png" alt="images/Box1_$10.png">
+											<img src="{{product.url}}" alt="{{product.url}}">
 										</div>
 										<div class="cartOverlay">
 											<img src="images/cart.png" alt="images/cart.png">
 										</div>
 										<div class="addBtn">
-											<button onclick="addToCart('Box1')" type="button" class="btn btn-success">Add</button>
+											<button ng-click="addToCart(product.key)" type="button" class="btn btn-success">Add</button>
 										</div>
 										<div class="removeBtn">
-											<button onclick="removeFromCart('Box1')" type="button" class="btn btn-danger">Remove</button>
+											<button ng-click="removeFromCart(product.key)" type="button" class="btn btn-danger">Remove</button>
 										</div>
 									</div>
-									<div class="priceLabel">$10</div><br>
-									<div class="itemName">Box1</div>
-								</div>
-								<div class="col-xs-4 product">
-									<div class="img-container" id="Box2">
-										<div class="productImg">
-											<img src="images/Box2_$20.png" alt="images/Box2_$20.png">
-										</div>
-										<div class="cartOverlay">
-											<img src="images/cart.png" alt="images/cart.png">
-										</div>
-										<div class="addBtn">
-											<button onclick="addToCart('Box2')" type="button" class="btn btn-success">Add</button>
-										</div>
-										<div class="removeBtn">
-											<button onclick="removeFromCart('Box2')" type="button" class="btn btn-danger">Remove</button>
-										</div>
-									</div>
-									<div class="priceLabel">$20</div><br>
-									<div class="itemName">Box2</div>
-								</div>
-								<div class="col-xs-4 product">
-									<div class="img-container" id="Clothes1">
-										<div class="productImg">
-											<img src="images/Clothes1_$20.png" alt="images/Clothes1_$20.png">
-										</div>
-										<div class="cartOverlay">
-											<img src="images/cart.png" alt="images/cart.png">
-										</div>
-										<div class="addBtn">
-											<button onclick="addToCart('Clothes1')" type="button" class="btn btn-success">Add</button>
-										</div>
-										<div class="removeBtn">
-											<button onclick="removeFromCart('Clothes1')" type="button" class="btn btn-danger">Remove</button>
-										</div>
-									</div>
-									<div class="priceLabel">$20</div><br>
-									<div class="itemName">Clothes1</div>
+									<div class="priceLabel">${{product.price}}</div><br>
+									<div class="itemName">{{product.key}}</div>
 								</div>
 							</div>
 						</div>
