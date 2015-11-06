@@ -6,8 +6,9 @@ var cartTimeout = 3000;
 var enableTimeouts = false;
 var xhrTimeout = 200;
 var productsLoaded = false;
-var remoteServer = "https://cpen400a.herokuapp.com/products";http://localhost:5000/
-// var remoteServer = "https://mysterious-basin-3200.herokuapp.com/";
+// var remoteServer = "https://cpen400a.herokuapp.com/products";http://localhost:5000/
+// var remoteServer = "https://mysterious-basin-3200.herokuapp.com/products";
+var remoteServer = "http://localhost:5000/products";
 var inflight = [];
 var cartOverlayUrl = "images/cart.png";
 
@@ -26,7 +27,8 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 	$scope.XMLSendFinished = false;
 	
 	var stop; //we assign the countdownFn interval to stop
-
+	var numTries = 0; //stop after certain threshold
+	var maxTries = 10;
 	//compares cart quantity and price with updated info from server
 	var compareCartWithProducts = function(){
 		var keys = Object.keys($scope.cart);
@@ -139,7 +141,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 		
 
 		return function(){
-
+			numTries++;
 			//updating the price each time we refetch data
 			var keys = Object.keys($scope.cart);
 			for(var key in keys){
@@ -151,6 +153,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 			xhr.timeout = 2000;
 			xhr.onload = function(){
 				if(xhr.status == 200){
+					numTries = 0;
 					console.log(xhr.getResponseHeader("Content-type"));
 					if(xhr.getResponseHeader("Content-type") == 'application/json; charset=utf-8'){
 						$scope.products = JSON.parse(xhr.responseText);
@@ -162,27 +165,43 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 						console.log("responseText is not of type JSON: " + xhr.responseText);
 					}
 				}else{
+					if(numTries > maxTries){
+						console.log("Connection failed too many times. Try refreshing the page.")
+						return;
+					}
 					console.log("error code: " + xhr.status + ", sending another request");
 					xhr.open("GET", remoteServer);
+					numTries++;
 					xhr.send();
 				}
 				var index = xhrBuffer.indexOf(xhr);
 				xhrBuffer.splice(index, 1);
 			}
 			xhr.ontimeout = function(){
+				if(numTries > maxTries){
+					console.log("Connection failed too many times. Try refreshing the page.")
+					return;
+				}
 				console.log("Timeout Exceeded, sending another request");
 				xhr.open("GET", remoteServer);
+				numTries++;
 				xhr.send();
 			}
 			xhr.onabort = function(){
+				numTries = 0;
 				console.log("aborted")
 				var index = xhrBuffer.indexOf(xhr);
 				xhrBuffer.splice(index, 1);
 			}
 			xhr.onerror = function(){
-				console.log("error: " )
-				var index = xhrBuffer.indexOf(xhr);
-				xhrBuffer.splice(index, 1);
+				if(numTries > maxTries){
+					console.log("Connection failed too many times. Try refreshing the page.")
+					return;
+				}
+				console.log("error: " + xhr.status );
+				xhr.open("GET", remoteServer);
+				numTries++;
+				xhr.send();
 			}
 			xhrBuffer.push(xhr);
 			$scope.XMLSendFinished = false;
