@@ -29,8 +29,8 @@
 		      </div>
 		      <div class="modal-body">
 		      	
-
-		      	<form class="form-inline" id="cartModalForm" role="form">
+		      	<h4 ng-hide="XMLSendFinished">Refetching product info from server...</h4>
+		      	<form class="form-inline" id="cartModalForm" role="form" ng-show="XMLSendFinished">
 					<div ng-repeat="item in cart | filterProductsArray" class="row cartItem">
 						<div class="col-xs-3">
 							<img class="modalItemImg" ng-src="{{products[item.key]['url']}}" alt="{{products[item.key]['url']}}">
@@ -58,7 +58,7 @@
 		      <div class="modal-footer">
 		      	<div class="row">
 		      		<div class="col-md-8" id="modalCartPriceTotal">
-		      			Total: <span id="modalCartPriceTotalText">${{cashTotal}}</span>
+		      			Total: <span id="modalCartPriceTotalText">${{getCartPrice()}}</span>
 		      		</div>
 		      		<div class="col-md-1">
 			       		<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -84,7 +84,7 @@
 							<img src="images/eceWelcomeBanner.jpg"></img>
 						</div>
 						<div id="cartButton">
-							<button type="button" ng-click="sendRequest()" class="menuButton btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart <span id="cashTotalText">${{cashTotal}}</span></button>
+							<button type="button" ng-click="sendRequest()" class="menuButton btn btn-primary" data-toggle="modal" data-target="#cartModal">Cart <span id="cashTotalText">${{getCartPrice()}}</span></button>
 						</div>
 					</div>
 				</div>

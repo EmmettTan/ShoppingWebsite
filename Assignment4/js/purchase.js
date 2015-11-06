@@ -1,6 +1,5 @@
 var cart = [];
 var products = [];
-var cashTotal = 0;
 var inactiveIntervalTimer;
 var inactiveTime = 30000;
 var cartTimeout = 3000;
@@ -23,7 +22,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 	
 	$scope.cart = {};
 	$scope.products = {};
-	$scope.cashTotal = 0;
+	$scope.XMLSendFinished = false;
 	
 	var stop; //we assign the countdownFn interval to stop
 
@@ -60,7 +59,6 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 		}else{
 			alert(productName + " is out of stock!");
 		}
-		$scope.updateCartPrice();
 	}
 
 	$scope.removeFromCart = function(productName){
@@ -75,7 +73,6 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 		}else{
 			alert("Item does not exist in cart.");
 		}
-		$scope.updateCartPrice();
 	}
 	
 
@@ -95,12 +92,13 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 		return Object.keys($scope.products).length;
 	}
 
-	$scope.updateCartPrice = function(){
+	$scope.getCartPrice = function(){
 		var key;
-		$scope.cashTotal = 0;
+		var total = 0;
 		for(key in $scope.cart){
-			$scope.cashTotal += $scope.products[key]["price"] * $scope.cart[key]['quantity'];
+			total += $scope.products[key]["price"] * $scope.cart[key]['quantity'];
 		}
+		return total;
 	}
 
 
@@ -152,7 +150,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 					if(xhr.getResponseHeader("Content-type") == 'application/json; charset=utf-8'){
 						$scope.products = JSON.parse(xhr.responseText);
 						compareCartWithProducts();
-						$scope.updateCartPrice();
+						$scope.XMLSendFinished = true;
 						$scope.startCountdown();
 					}else{
 						console.log("responseText is not of type JSON: " + xhr.responseText);
@@ -181,6 +179,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 				xhrBuffer.splice(index, 1);
 			}
 			xhrBuffer.push(xhr);
+			$scope.XMLSendFinished = false;
 			xhr.send();
 		}
 	}
