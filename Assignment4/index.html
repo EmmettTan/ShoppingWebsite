@@ -31,20 +31,20 @@
 		      	
 
 		      	<form class="form-inline" id="cartModalForm" role="form">
-					<div ng-repeat="(key, value) in cart" class="row cartItem">
+					<div ng-repeat="item in cart | filterProductsArray" class="row cartItem">
 						<div class="col-xs-3">
-							<img class="modalItemImg" ng-src="{{products[key]['url']}}" alt="{{products[key]['url']}}">
+							<img class="modalItemImg" ng-src="{{products[item.key]['url']}}" alt="{{products[item.key]['url']}}">
 						</div>
 						<div class="col-xs-5 modalCartQuantityText">
-							Quantity: {{value}} <br>
-							Price: ${{products[key]["price"]}} <br>
+							Quantity: {{item.quantity}} <br>
+							Price: ${{products[item.key]["price"]}} <br>
 							<span>TODO</span>
 						</div>
 						<div class="col-xs-2">
-							<button type="button" class="modalAddBtn btn-success btn" ng-click="addToCart(key)" ng-class="{'addBtnHidden': !productInStock(key)}">+</button>
+							<button type="button" class="modalAddBtn btn-success btn" ng-click="addToCart(item.key)" ng-class="{'addBtnHidden': !productInStock(item.key)}">+</button>
 						</div>
 						<div class="col-xs-2">
-							<button type="button" class="modalRemoveBtn btn-danger btn" ng-click="removeFromCart(key)" ng-class="{'removeBtnHidden': !itemExistsInCart(key)}">-</button>
+							<button type="button" class="modalRemoveBtn btn-danger btn" ng-click="removeFromCart(item.key)" ng-class="{'removeBtnHidden': !itemExistsInCart(item.key)}">-</button>
 						</div>
 					</div>
 

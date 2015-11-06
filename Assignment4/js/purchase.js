@@ -35,9 +35,11 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 
 		if ($scope.productInStock(productName)){
 			if($scope.cart.hasOwnProperty(productName)){
-				$scope.cart[productName]++;
+				$scope.cart[productName]['quantity']++;
 			}else{
-				$scope.cart[productName] = 1;
+				$scope.cart[productName] = {};
+				$scope.cart[productName]['quantity'] = 1;
+				$scope.cart[productName]['price'] = $scope.products[productName]['price'];
 			}
 			$scope.products[productName]["quantity"]--;
 		}else{
@@ -50,8 +52,8 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 		$scope.resetCountdown();
 
 		if($scope.cart.hasOwnProperty(productName)){
-			$scope.cart[productName]--;
-			if($scope.cart[productName] == 0){
+			$scope.cart[productName]['quantity']--;
+			if($scope.cart[productName]['quantity'] == 0){
 				delete $scope.cart[productName];
 			}
 			$scope.products[productName]["quantity"]++;
@@ -74,13 +76,11 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 		return Object.keys($scope.products).length;
 	}
 
-	console.log($scope.getNumProducts());
-
 	$scope.updateCartPrice = function(){
 		var key;
 		$scope.cashTotal = 0;
 		for(key in $scope.cart){
-			$scope.cashTotal += $scope.products[key]["price"] * $scope.cart[key];
+			$scope.cashTotal += $scope.products[key]["price"] * $scope.cart[key]['quantity'];
 		}
 	}
 
