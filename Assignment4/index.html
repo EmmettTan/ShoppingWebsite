@@ -35,16 +35,21 @@
 						<div class="col-xs-3">
 							<img class="modalItemImg" ng-src="{{products[item.key]['url']}}" alt="{{products[item.key]['url']}}">
 						</div>
-						<div class="col-xs-5 modalCartQuantityText">
-							Quantity: {{item.quantity}} <br>
-							Price: ${{products[item.key]["price"]}} <br>
-							<span>TODO</span>
+						<div class="col-xs-5 modalCartQuantityText" >
+							<div class="outOfStock" ng-hide="!(products[item.key]['quantity'] + cart[item.key]['quantity'] == 0)">OUT OF STOCK</div>
+							<div ng-hide="products[item.key]['quantity'] + cart[item.key]['quantity'] == 0">
+								Quantity: {{item.quantity}} <br>
+								Price: ${{products[item.key]["price"]}} <br>
+								{{cart[item.key]['price'] != products[item.key]['price'] ? "Previous Price: $" + cart[item.key]['price'] : ""}} <br>
+								{{cart[item.key]['quantity-diff'] == true ? "Only " + (products[item.key]['quantity'] +  cart[item.key]['quantity']) + " item(s) found in stock." : ""}}
+							</div>
 						</div>
 						<div class="col-xs-2">
 							<button type="button" class="modalAddBtn btn-success btn" ng-click="addToCart(item.key)" ng-class="{'addBtnHidden': !productInStock(item.key)}">+</button>
 						</div>
 						<div class="col-xs-2">
-							<button type="button" class="modalRemoveBtn btn-danger btn" ng-click="removeFromCart(item.key)" ng-class="{'removeBtnHidden': !itemExistsInCart(item.key)}">-</button>
+							<button type="button" class="modalRemoveBtn btn-danger btn" ng-click="removeFromCart(item.key)" ng-show="itemExistsInCart(item.key)" >-</button>
+							<button type="button" class="modalRemoveBtn btn-danger btn" ng-click="deleteItemFromCart(item.key)" ng-show="!itemExistsInCart(item.key)" >x</button>
 						</div>
 					</div>
 

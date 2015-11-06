@@ -27,7 +27,22 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 	
 	var stop; //we assign the countdownFn interval to stop
 
-	console.log($scope.products);
+	//compares cart quantity and price with updated info from server
+	var compareCartWithProducts = function(){
+		var keys = Object.keys($scope.cart);
+		console.log(keys);
+		for(var key in keys){
+			if($scope.cart[keys[key]]['quantity'] > $scope.products[keys[key]]['quantity']){
+				$scope.cart[keys[key]]['quantity-diff'] = true; 
+				$scope.cart[keys[key]]['quantity'] = $scope.products[keys[key]]['quantity'];
+				$scope.products[keys[key]]['quantity'] = 0;
+			}else{
+				 $scope.cart[keys[key]]['quantity-diff'] = false; 
+				 $scope.products[keys[key]]['quantity'] -= $scope.cart[keys[key]]['quantity'];
+			}
+			// if($scope.cart[keys[key]]['quantity'] == 0) delete $scope.cart[keys[key]];
+		}
+	}
 
 	//Cart and product functions
 	$scope.addToCart = function(productName) {
@@ -62,14 +77,18 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 		}
 		$scope.updateCartPrice();
 	}
+	
 
+	$scope.deleteItemFromCart = function(productName){
+		if($scope.cart[productName])delete $scope.cart[productName];
+	}
 
 	$scope.productInStock = function(productName){
 		return($scope.products[productName]["quantity"] > 0);
 	}
 
 	$scope.itemExistsInCart = function(productName){
-		return($scope.cart.hasOwnProperty(productName));
+		return($scope.cart.hasOwnProperty(productName) && $scope.cart[productName]['quantity'] > 0);
 	}
 
 	$scope.getNumProducts = function(){
@@ -113,7 +132,17 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 	$scope.requestCount = function(msg, xhrBuffer){
 		console.log("Sending request to server: " + remoteServer);
 		var count = 0;
+
+		
+
 		return function(){
+
+			//updating the price each time we refetch data
+			var keys = Object.keys($scope.cart);
+			for(var key in keys){
+				$scope.cart[keys[key]]['price'] = $scope.products[keys[key]]['price']; 
+			}
+
 			var xhr = new XMLHttpRequest();
 			xhr.open("GET", remoteServer);
 			xhr.timeout = 2000;
@@ -122,6 +151,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 					console.log(xhr.getResponseHeader("Content-type"));
 					if(xhr.getResponseHeader("Content-type") == 'application/json; charset=utf-8'){
 						$scope.products = JSON.parse(xhr.responseText);
+						compareCartWithProducts();
 						$scope.updateCartPrice();
 						$scope.startCountdown();
 					}else{
@@ -168,6 +198,14 @@ mainModule.filter('filterProductsArray', function(){
 			filtered.push(item);
 		});
 		return filtered;
+	}
+});
+
+mainModule.filter('cartPriceIsDifferent', function(){
+	return function(key){
+		if($scope.cart[key]['price'] != $scope.products[key]['price']){
+			return true;
+		}
 	}
 });
 
