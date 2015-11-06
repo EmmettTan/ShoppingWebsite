@@ -126,6 +126,10 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 		$scope.inactiveTimeLeft = inactiveTime/1000;
 	}
 
+	$scope.showCashTotal = function(){
+		alert("Total Amount Due: $" + $scope.getCartPrice());
+	}				
+
 
 	$scope.requestCount = function(msg, xhrBuffer){
 		console.log("Sending request to server: " + remoteServer);
@@ -151,6 +155,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 						$scope.products = JSON.parse(xhr.responseText);
 						compareCartWithProducts();
 						$scope.XMLSendFinished = true;
+						if(!isEmpty($scope.cart))showCashTotal();
 						$scope.startCountdown();
 					}else{
 						console.log("responseText is not of type JSON: " + xhr.responseText);
@@ -207,5 +212,20 @@ mainModule.filter('cartPriceIsDifferent', function(){
 		}
 	}
 });
+
+var showCashTotal = function(){
+	var ngScope = angular.element(document.getElementById("ngWrapper")).scope();
+	
+	alert("Total Amount Due: $" + ngScope.getCartPrice());
+}	
+
+function isEmpty(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+
+    return true;
+}
 
 $(document).ready(function(){ init();  }) 

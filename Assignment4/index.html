@@ -30,7 +30,7 @@
 		      <div class="modal-body">
 		      	
 		      	<h4 ng-hide="XMLSendFinished">Refetching product info from server...</h4>
-		      	<form class="form-inline" id="cartModalForm" role="form" ng-show="XMLSendFinished">
+		      	<form class="form-inline" id="cartModalForm" role="form" ng-show="XMLSendFinished" onshow="showCashTotal()">
 					<div ng-repeat="item in cart | filterProductsArray" class="row cartItem">
 						<div class="col-xs-3">
 							<img class="modalItemImg" ng-src="{{products[item.key]['url']}}" alt="{{products[item.key]['url']}}">
