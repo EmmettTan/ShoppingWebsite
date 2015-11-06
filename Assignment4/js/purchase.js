@@ -6,7 +6,8 @@ var cartTimeout = 3000;
 var enableTimeouts = false;
 var xhrTimeout = 200;
 var productsLoaded = false;
-var remoteServer = "https://cpen400a.herokuapp.com/products";
+var remoteServer = "https://cpen400a.herokuapp.com/products";http://localhost:5000/
+// var remoteServer = "https://mysterious-basin-3200.herokuapp.com/";
 var inflight = [];
 var cartOverlayUrl = "images/cart.png";
 
