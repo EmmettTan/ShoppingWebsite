@@ -1,14 +1,13 @@
 var cart = [];
 var products = [];
 var inactiveIntervalTimer;
-var inactiveTime = 30000;
-var cartTimeout = 3000;
-var enableTimeouts = false;
+var inactiveTime = 300000;
+var enableTimeouts = true;
 var xhrTimeout = 200;
 var productsLoaded = false;
 // var remoteServer = "https://cpen400a.herokuapp.com/products";http://localhost:5000/
-// var remoteServer = "https://mysterious-basin-3200.herokuapp.com/products";
-var remoteServer = "http://localhost:5000/products";
+var remoteServer = "https://mysterious-basin-3200.herokuapp.com/products";
+// var remoteServer = "http://localhost:5000/products";
 var inflight = [];
 var cartOverlayUrl = "images/cart.png";
 
@@ -130,17 +129,33 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 	}
 
 	$scope.showCashTotal = function(){
-		alert("Total Amount Due: $" + $scope.getCartPrice());
+		var updatedProductsAlertStr = "";
+		updatedProductsAlertStr += "Total Amount Due: $" + $scope.getCartPrice() + '\n\n';
+		var keys = Object.keys($scope.cart);
+		for(var key in keys){
+			if ( $scope.cart[keys[key]]['price'] != $scope.products[keys[key]]['price'] ){
+				updatedProductsAlertStr += keys[key] + " price changed from " + $scope.cart[keys[key]]['price'] + " to " + $scope.products[keys[key]]['price'] + "." + '\n';
+			}
+			if($scope.cart[keys[key]]['quantity-diff']){
+				updatedProductsAlertStr += keys[key] + " quantity: only " + ($scope.products[keys[key]]['quantity']+$scope.cart[keys[key]]['quantity']) + " items found in inventory." + '\n';
+			}
+		}
+
+		alert(updatedProductsAlertStr);
 	}				
 
 
 	$scope.requestCount = function(msg, xhrBuffer){
 		console.log("Sending request to server: " + remoteServer);
+
 		var count = 0;
 
 		
 
 		return function(){
+			if(!isEmpty($scope.cart)){
+				alert("Checking server for inventory availability and price changes...");
+			}
 			numTries++;
 			//updating the price each time we refetch data
 			var keys = Object.keys($scope.cart);
@@ -159,7 +174,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 						$scope.products = JSON.parse(xhr.responseText);
 						compareCartWithProducts();
 						$scope.XMLSendFinished = true;
-						if(!isEmpty($scope.cart))showCashTotal();
+						if(!isEmpty($scope.cart))$scope.showCashTotal();
 						$scope.startCountdown();
 					}else{
 						console.log("responseText is not of type JSON: " + xhr.responseText);
