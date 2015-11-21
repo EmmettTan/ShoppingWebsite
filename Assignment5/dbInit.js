@@ -1,14 +1,18 @@
 var https = require('https');
-
 var mongodb = require('mongodb');
 var assert = require('assert');
+var express = require('express');
 
+var app = express();
 var MongoClient = mongodb.MongoClient;
 
 var maxTries = 5;
 
 var url = 'mongodb://localhost:27017/database';
 var remoteServer = 'https://cpen400a.herokuapp.com/products';
+
+// var collections = ["products"];
+// var db = require("mongojs").connect(url, collections);
 
 var inflight = [];
 
@@ -29,27 +33,28 @@ MongoClient.connect(url, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
+
     //HURRAY!! We are connected. :)
     console.log('Connection established to', url);
     // Get the documents collection
     var collection = db.collection('products');
     collection.drop();
 
-
     collection = db.collection('products');
+
+
 
    	
     function populateDbWithProducts(productList){
 		var keys = Object.keys(products);
 		for(var key in keys){
 			var item = products[keys[key]];
-			console.log(item);
 			item.name = keys[key];
 			collection.insert(item, function (err, result) {
 		      if (err) {
 		        console.log(err);
 		      } else {
-		        console.log('Inserted %d documents into the "users" collection. The documents inserted with "_id" are:', result.length, result);
+		        // console.log('Inserted %d documents into the "users" collection. The documents inserted with "_id" are:', result.length, result);
 		      }
 		  	});
 		}
@@ -108,92 +113,30 @@ MongoClient.connect(url, function (err, db) {
 	  sendHttpRequest();
 	}
 
-	//end of https stuff
-
-    // Insert some users
-    // collection.insert([user1, user2, user3], function (err, result) {
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     console.log('Inserted %d documents into the "users" collection. The documents inserted with "_id" are:', result.length, result);
-    //   }
-    //   //Close connection
-    //   db.close();
-    // });
   
 	setupHttpsRequest();
+
+
+	app.set('port', (process.env.PORT || 5000));
+
+
+	app.get('/products', function(request, response) {
+
+	  response.header("Access-Control-Allow-Origin", "*");
+	  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	  db.collection('products').find().toArray(function(err, items){
+	  	response.json(items);
+	  });
+	})
+
+	app.listen(app.get('port'), function() {
+	  console.log("Node app is running at localhost:" + app.get('port'))
+	});
   }
 });
 
-//Lets require/import the HTTP module
-var http = require('http');
-
-//Lets define a port we want to listen to
-const PORT=5000; 
-
-//We need a function which handles requests and send response
-function handleRequest(request, response){
-	response.writeHead(200, {
-		"Access-Control-Allow-Origin" : "*"
-		}
-	)
-	if(request.method === "GET") {
-    	if (request.url === "/products") {
-    		response.end('return products here ' + request.url + request.method);
-    	}else{
-    		response.end('Unrecognized url path: ' + request.url);
-    	}
-    }else if(request.method === "POST"){
-    	response.end('do a post request');
-    }else{
-    	response.end("request.method is :" + request.method);
-    }
-}
-
-function clientErrorCallback(e, socket){
-	response.end("Exception is " + e + ", Socket is " + socket);
-}
-
-function closeCallback(){
-	response.end("socket closed");
-}
-
-//Create a server
-var server = http.createServer(handleRequest);
 
 
-server.on('clientError', clientErrorCallback);
-
-server.on('close', closeCallback);
-
-//Lets start our server
-server.listen(PORT, function(){
-    //Callback triggered when server is successfully listening. Hurray!
-    console.log("Server listening on: http://localhost:%s", PORT);
-});
-
-
-// var db = mongoose.connection;
-
-// var productSchema = mongoose.Schema({
-// 	name: String,
-// 	price: Number,
-// 	quantity: Number,
-// 	url: String
-// });
-
-// var Product = mongoose.model('Product', productSchema);
-
-
-// db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function (callback) {
-// 	Product.find(function (err, products) {
-// 	  if (err) return console.error(err);
-// 	  console.log(products);
-// 	});
-
-// 	setupHttpsRequest();
-// });
 
 
 

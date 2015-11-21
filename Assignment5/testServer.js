@@ -1,43 +1,84 @@
-//Lets require/import the HTTP module
-var http = require('http');
+var express = require('express')
+var app = express()
 
-//Lets define a port we want to listen to
-const PORT=5000; 
+app.set('port', (process.env.PORT || 5000));
 
-//We need a function which handles requests and send response
-function handleRequest(request, response){
-	if(request.method === "GET") {
-    	if (request.url === "/products") {
-    		response.end('return products here ' + request.url + request.method);
-    		console.log('successful products get');
-    	}else{
-    		response.end('Unrecognized url path: ' + request.url);
-    	}
-    }else if(request.method === "POST"){
-    	response.end('do a post request');
-    }else{
-    	response.end("request.method is :" + request.method);
-    }
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function clientErrorCallback(e, socket){
-	response.end("Exception is " + e + ", Socket is " + socket);
-}
+app.get('/products', function(request, response) {
 
-function closeCallback(){
-	response.end("socket closed");
-}
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-//Create a server
-var server = http.createServer(handleRequest);
+  // var products = {
+  //   'KeyboardCombo' : {
+  //     price : getRandomInt(25,35),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/KeyboardCombo.png'
+  //   },
+  //   'Mice' : {
+  //     price : getRandomInt(5,7),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/Mice.png'
+  //   },
+  //   'PC1' : {
+  //     price : getRandomInt(300,350),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/PC1.png'
+  //   },
+  //   'PC2' : {
+  //     price : getRandomInt(350,400),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/PC2.png'
+  //   },
+  //   'PC3' : {
+  //     price : getRandomInt(330,380),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/PC3.png'
+  //   },
+  //   'Tent' : {
+  //     price : getRandomInt(30,40),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/Tent.png'
+  //   },
+  //   'Box1' : {
+  //     price : getRandomInt(5,7),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/Box1.png'
+  //   },
+  //   'Box2' : {
+  //     price : getRandomInt(5,7),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/Box2.png'
+  //   },
+  //   'Clothes1' : {
+  //     price : getRandomInt(20,30),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/Clothes1.png'
+  //   },
+  //   'Clothes2' : {
+  //     price : getRandomInt(20,30),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/Clothes2.png'
+  //   },
+  //   'Jeans' : {
+  //     price : getRandomInt(30,40),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/Jeans.png'
+  //   },
+  //   'Keyboard' : {
+  //     price : getRandomInt(15,25),
+  //     quantity : getRandomInt(5,10),
+  //     url : 'https://cpen400a.herokuapp.com/images/Keyboard.png'
+  //   }
+  // };
 
+  // response.json(products);
+  
+})
 
-server.on('clientError', clientErrorCallback);
-
-server.on('close', closeCallback);
-
-//Lets start our server
-server.listen(PORT, function(){
-    //Callback triggered when server is successfully listening. Hurray!
-    console.log("Server listening on: http://localhost:%s", PORT);
-});
+app.listen(app.get('port'), function() {
+  console.log("Node app is running at localhost:" + app.get('port'))
+})

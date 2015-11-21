@@ -2,13 +2,13 @@ var cart = [];
 var products = [];
 var inactiveIntervalTimer;
 var inactiveTime = 300000;
-var enableTimeouts = true;
+var enableTimeouts = false;
 var xhrTimeout = 200;
 var productsLoaded = false;
 // var remoteServer = "https://cpen400a.herokuapp.com/products";http://localhost:5000/
 // var remoteServer = "https://mysterious-basin-3200.herokuapp.com/products";
 // var remoteServer = "mongodb://localhost:27017/database";
-var remoteServer = "http://localhost:5000";
+var remoteServer = "http://localhost:5000/products";
 var inflight = [];
 var cartOverlayUrl = "images/cart.png";
 
