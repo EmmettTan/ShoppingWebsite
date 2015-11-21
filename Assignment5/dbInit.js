@@ -2,6 +2,7 @@ var https = require('https');
 var mongodb = require('mongodb');
 var assert = require('assert');
 var express = require('express');
+var bodyParser = require('body-parser');
 
 var app = express();
 var MongoClient = mongodb.MongoClient;
@@ -116,8 +117,10 @@ MongoClient.connect(url, function (err, db) {
   
 	setupHttpsRequest();
 
+	app.use(bodyParser.json());
 
 	app.set('port', (process.env.PORT || 5000));
+
 
 
 	app.get('/products', function(request, response) {
@@ -127,6 +130,15 @@ MongoClient.connect(url, function (err, db) {
 	  db.collection('products').find().toArray(function(err, items){
 	  	response.json(items);
 	  });
+	})
+
+	app.post('/products', function(req, res){
+		var resStr = "";
+		console.log(req.body);
+		for (var item in req.body){
+			resStr += item;
+		}
+		res.end(resStr)
 	})
 
 	app.listen(app.get('port'), function() {
