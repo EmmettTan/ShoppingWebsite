@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "body-parser": "^1.8.1",
+    "express": "^4.13.3",
+    "mongodb": "^2.0.48",
+    "http-server": "0.8.5"
+  }
+}
