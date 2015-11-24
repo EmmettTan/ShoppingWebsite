@@ -38,10 +38,27 @@ MongoClient.connect(url, function (err, db) {
     //HURRAY!! We are connected. :)
     console.log('Connection established to', url);
     // Get the documents collection
-    var collection = db.collection('products');
-    collection.drop();
+    var productsCollection = db.collection('products');
+    productsCollection.drop();
 
-    collection = db.collection('products');
+    productsCollection = db.collection('products');  
+
+    var ordersCollection = db.collection('orders');
+    ordersCollection.drop();
+
+    ordersCollection = db.collection('orders');
+
+
+
+    var addOrder = function(order){
+    	ordersCollection.insert(order, function (err, result) {
+	      if (err) {
+	        console.log(err);
+	      } else {
+	        console.log('Inserted %d documents into the "users" collection. The documents inserted with "_id" are:', result.length, result);
+	      }
+	  	});
+    }
 
 
 
@@ -51,7 +68,7 @@ MongoClient.connect(url, function (err, db) {
 		for(var key in keys){
 			var item = products[keys[key]];
 			item.name = keys[key];
-			collection.insert(item, function (err, result) {
+			productsCollection.insert(item, function (err, result) {
 		      if (err) {
 		        console.log(err);
 		      } else {
@@ -132,13 +149,36 @@ MongoClient.connect(url, function (err, db) {
 	  });
 	})
 
-	app.post('/products', function(req, res){
-		var resStr = "";
-		console.log(req.body);
-		for (var item in req.body){
-			resStr += item;
+	//TODO: CHECKOUT 
+	//	TAKE CART PRODUCT AND STORE AS ORDERS VARIABLE
+	//	
+	app.post('/checkout', function(req, res){
+		var products;
+		var asdf = [];
+		for(var name in req.body){
+			var newObject = {};
+			newObject.name = name;
+			asdf.push(newObject);
 		}
-		res.end(resStr)
+		console.log(asdf);
+		db.collection('products').find(asdf).toArray(function(err, items){
+			// console.log("items : " + items);
+			if(err){
+				console.log(err);
+				res.end(err);
+				return;
+			}else{
+				for (var item in req.body){
+					// console.log(req.body[item]);
+					var dbItems = db.collection('products').find({}).toArray();
+					// console.log(dbItems);
+				}
+				var something = JSON.stringify(items);
+				res.json(items);
+			}
+		});
+		// console.log("products \n" + products);
+		
 	})
 
 	app.listen(app.get('port'), function() {

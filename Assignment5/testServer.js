@@ -1,84 +1,44 @@
-var express = require('express')
-var app = express()
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/database');
 
-app.set('port', (process.env.PORT || 5000));
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function (callback) {
+  var kittySchema = mongoose.Schema({
+    name: String
+  });
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+  kittySchema.methods.speak = function () {
+  var greeting = this.name
+    ? "Meow name is " + this.name
+    : "I don't have a name";
+  console.log(greeting);
+  }
 
-app.get('/products', function(request, response) {
+  var Kitten = mongoose.model('Kitten', kittySchema);
 
-  response.header("Access-Control-Allow-Origin", "*");
-  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  var fluffy = new Kitten({ name: 'fluffy' });
+  fluffy.speak(); // "Meow name is fluffy"
 
-  // var products = {
-  //   'KeyboardCombo' : {
-  //     price : getRandomInt(25,35),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/KeyboardCombo.png'
-  //   },
-  //   'Mice' : {
-  //     price : getRandomInt(5,7),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/Mice.png'
-  //   },
-  //   'PC1' : {
-  //     price : getRandomInt(300,350),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/PC1.png'
-  //   },
-  //   'PC2' : {
-  //     price : getRandomInt(350,400),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/PC2.png'
-  //   },
-  //   'PC3' : {
-  //     price : getRandomInt(330,380),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/PC3.png'
-  //   },
-  //   'Tent' : {
-  //     price : getRandomInt(30,40),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/Tent.png'
-  //   },
-  //   'Box1' : {
-  //     price : getRandomInt(5,7),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/Box1.png'
-  //   },
-  //   'Box2' : {
-  //     price : getRandomInt(5,7),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/Box2.png'
-  //   },
-  //   'Clothes1' : {
-  //     price : getRandomInt(20,30),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/Clothes1.png'
-  //   },
-  //   'Clothes2' : {
-  //     price : getRandomInt(20,30),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/Clothes2.png'
-  //   },
-  //   'Jeans' : {
-  //     price : getRandomInt(30,40),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/Jeans.png'
-  //   },
-  //   'Keyboard' : {
-  //     price : getRandomInt(15,25),
-  //     quantity : getRandomInt(5,10),
-  //     url : 'https://cpen400a.herokuapp.com/images/Keyboard.png'
-  //   }
-  // };
+  var silence = new Kitten({ name: 'Silence' });
+  console.log(silence.name); // 'Silence'
 
-  // response.json(products);
-  
-})
+  fluffy.save(function (err, fluffy) {
+    if (err) return console.error(err);
+    fluffy.speak();
+  });
 
-app.listen(app.get('port'), function() {
-  console.log("Node app is running at localhost:" + app.get('port'))
-})
+  Kitten.find(function (err, kittens) {
+    // if (err) return console.error(err);
+    // console.log(kittens);
+  });
+
+  var callback = function(err, kittens, something){
+    console.log(err);
+    console.log(kittens);
+    console.log(something);
+  }
+
+  Kitten.find({ name: /^fluff/ }, callback);
+
+});

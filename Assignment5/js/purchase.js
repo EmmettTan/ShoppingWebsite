@@ -57,11 +57,14 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 				$scope.cart[productName] = {};
 				$scope.cart[productName]['quantity'] = 1;
 				$scope.cart[productName]['price'] = $scope.products[productName]['price'];
+
+				$scope.cart[productName]['_id'] = $scope.products[productName]['_id']; 
 			}
 			$scope.products[productName]["quantity"]--;
 		}else{
 			alert(productName + " is out of stock!");
 		}
+		console.log(JSON.stringify($scope.cart));
 	}
 
 	$scope.removeFromCart = function(productName){
@@ -161,7 +164,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 			//updating the price each time we refetch data
 			var keys = Object.keys($scope.cart);
 			for(var key in keys){
-				$scope.cart[keys[key]]['price'] = $scope.products[keys[key]]['price']; 
+				$scope.cart[keys[key]]['price'] = $scope.products[keys[key]]['price'];
 			}
 
 			var xhr = new XMLHttpRequest();
