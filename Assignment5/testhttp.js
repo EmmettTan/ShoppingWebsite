@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var q = require('q');
+var cors = require('cors');
 var deferred = q.defer();
 var enableResetDatabase = true;
 
@@ -90,6 +91,8 @@ db.once('open', function (callback) {
   }
 
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: true}) );
+  app.use(cors());
 
   app.set('port', (process.env.PORT || 5000));
 
@@ -110,19 +113,27 @@ db.once('open', function (callback) {
   //  TAKE CART PRODUCT AND STORE AS ORDERS VARIABLE
   //  
   app.post('/checkout', function(req, res){
-    Product.find(function(err, products){
-      var dbProducts = products;
-      
-    });
+    // for(var item in req.body){
+    //   req.body = item;
+    // }
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-    var products;
-    var asdf = [];
+    // for(var key in req.body){
+    //   req.body =
+    // }
+    // req.body = CleanJSONQuotesOnKeys(req.body);
+    // console.log(req.body);
+
+
+    
     // for(var name in req.body){
     //   var newObject = {};
     //   newObject.name = name;
     //   asdf.push(newObject);
     // }
     // console.log(asdf);
+
     db.collection('products').find({}).toArray(function(err, items){
       // console.log(items);
       // console.log("items : " + items);
@@ -141,6 +152,9 @@ db.once('open', function (callback) {
         // console.log(productsArr);
         var ordersPass = true;
         for(var key in req.body){
+          // console.log(req.body);
+          console.log("key" + key);
+          // console.log(req.body[key]);
           if(productsArr[key].quantity < req.body[key].quantity ){
             console.log('out of stock, order can\'t go through');
             ordersPass = false;
@@ -151,6 +165,7 @@ db.once('open', function (callback) {
 
 
         if(ordersPass){
+          console.log(req.body);
           var cart = JSON.stringify(req.body);
           var order = new Order();
           order.cart = cart;
@@ -197,13 +212,13 @@ db.once('open', function (callback) {
           for (var key in req.body){
             itemsToProcess.push(req.body[key]);
           }
+          console.log(itemsToProcess);
           var numItems = itemsToProcess.length - 1;
           var chain = itemsToProcess.reduce(function (previous, item, currentIndex) {
             return previous.then(function (previousValue) {
-                var query = { name: item.key };
-                var newQuantity = productsArr[item.key].quantity - req.body[item.key].quantity;
+                var query = { name: item.name };
+                var newQuantity = productsArr[item.name].quantity - req.body[item.name].quantity;
                 return Product.findOneAndUpdate(query, {quantity: newQuantity}, function(err, results){
-                  console.log(results);
                   if(err){
                     deferred.reject(new Error(err));
                   }else{
@@ -222,66 +237,12 @@ db.once('open', function (callback) {
           }, q.resolve(null));
 
           chain.then(function (lastResult) {
-              console.log(lastResult);
+
           });
 
 
-
-          // for(var key in req.body){
-          //   var query = { name: key };
-          //   var newQuantity = productsArr[key].quantity - req.body[key].quantity;
-            
-
-            
-          //   if(currKey == 0){
-          //     var tempPromise = function(){
-          //         var promise = new Promise(function(resolve, reject){
-          //           console.log(query);
-          //           Product.findOneAndUpdate(query, {quantity: newQuantity}, function(err, results){
-          //             if(err){
-          //               console.log(err);
-          //             }else{
-          //               resolve()
-          //             }
-          //           });
-          //         }
-          //       )
-          //       promisesArray[currKey] = tempPromise;
-          //       currKey++;
-          //     }
-
-          //   }else{
-
-          //     promisesArray[currKey-1].then(
-          //       function(){
-                  
-          //       var tempPromise = new Promise(
-          //           function(resolve, reject){
-          //             var newFindFn = createFindOneAndUpdateClosure(query, {quantity: newQuantity}, resolve);
-          //           });
-          //         promisesArray[currKey] = tempPromise;
-          //         currKey++; 
-          //       }
-          //     ).catch(
-          //       function(reason){
-          //         console.log("Catch: " + reason);
-          //       }
-          //     ); 
-                          
-          //   }         
-          // }
-
-                // db.collection('products').find({}, function(err, items){
-                //   if(err){
-                //     res.end(err);
-                //     console.log(err);
-                //   }else{
-                //     res.end(JSON.stringify(items));
-                //   }
-                // });
-
         }else{
-          res.sendStatus(400);
+          res.json({result: 'failure'});
         }
       }
 
@@ -309,4 +270,8 @@ Object.size = function(obj) {
         if (obj.hasOwnProperty(key)) size++;
     }
     return size;
+};
+
+function CleanJSONQuotesOnKeys(json) {
+    return json.replace(/"(\w+)"\s*:/g, '$1:');
 };

@@ -3,12 +3,13 @@ var products = [];
 var inactiveIntervalTimer;
 var inactiveTime = 300000;
 var enableTimeouts = false;
-var xhrTimeout = 200;
+var xhrTimeout = 2000;
 var productsLoaded = false;
 // var remoteServer = "https://cpen400a.herokuapp.com/products";http://localhost:5000/
 // var remoteServer = "https://mysterious-basin-3200.herokuapp.com/products";
 // var remoteServer = "mongodb://localhost:27017/database";
 var remoteServer = "http://localhost:5000/products";
+var checkoutServer = "http://localhost:5000/checkout";
 var inflight = [];
 var cartOverlayUrl = "images/cart.png";
 
@@ -58,7 +59,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 				$scope.cart[productName]['quantity'] = 1;
 				$scope.cart[productName]['price'] = $scope.products[productName]['price'];
 
-				$scope.cart[productName]['_id'] = $scope.products[productName]['_id']; 
+				$scope.cart[productName]['name'] = $scope.products[productName]['name']; 
 			}
 			$scope.products[productName]["quantity"]--;
 		}else{
@@ -148,6 +149,98 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 		alert(updatedProductsAlertStr);
 	}				
 
+	$scope.sendCart = function(msg, xhrBuffer){
+		console.log("Sending checkout request to server: " + checkoutServer);
+
+		var count = 0;
+
+		
+		
+
+		return function(){
+			var cartRequestObj = {};
+			for(var key in $scope.cart){
+				cartRequestObj[$scope.cart[key].name] = $scope.cart[key];
+			}
+			console.log(JSON.stringify(cartRequestObj));
+			if(!isEmpty($scope.cart)){
+				alert("Checking server for inventory availability and price changes...");
+			}
+			numTries++;
+			//updating the price each time we refetch data
+			var keys = Object.keys($scope.cart);
+			for(var key in keys){
+				$scope.cart[keys[key]]['price'] = $scope.products[keys[key]]['price'];
+			}
+
+			var xhr = new XMLHttpRequest();
+			xhr.open("POST", checkoutServer);
+			xhr.timeout = 2000;
+			xhr.onload = function(){
+				if(xhr.status == 200){
+					numTries = 0;
+					console.log(xhr.getResponseHeader("Content-type"));
+					if(xhr.getResponseHeader("Content-type") == 'application/json; charset=utf-8'){
+						var orderStatus = JSON.parse(xhr.responseText);
+						console.log(orderStatus.result);
+						if(orderStatus.result != "failure"){
+							alert("Order Successful! Your total is " + $scope.getCartPrice());
+							$scope.cart = [];
+							
+						}else{
+							console.log(orderStatus.result);
+							alert("Order Unsuccessful, one or more items are out of stock.");
+							
+						}
+						$scope.sendRequest();
+					}else{
+						console.log("responseText is not of type JSON: " + xhr.responseText);
+					}
+				}else{
+					if(numTries > maxTries){
+						console.log("Connection failed too many times. Try refreshing the page.")
+						return;
+					}
+					console.log("error code: " + xhr.status + ", sending another request");
+					xhr.open("POST", checkoutServer);
+					numTries++;
+					xhr.send(JSON.stringify(cartRequestObj));
+				}
+				var index = xhrBuffer.indexOf(xhr);
+				xhrBuffer.splice(index, 1);
+			}
+			xhr.ontimeout = function(){
+				if(numTries > maxTries){
+					console.log("Connection failed too many times. Try refreshing the page.")
+					return;
+				}
+				console.log("Timeout Exceeded, sending another request");
+				xhr.open("POST", checkoutServer);
+				numTries++;
+				xhr.send(JSON.stringify(cartRequestObj));
+			}
+			xhr.onabort = function(){
+				numTries = 0;
+				console.log("aborted")
+				var index = xhrBuffer.indexOf(xhr);
+				xhrBuffer.splice(index, 1);
+			}
+			xhr.onerror = function(){
+				if(numTries > maxTries){
+					console.log("Connection failed too many times. Try refreshing the page.")
+					return;
+				}
+				console.log("error: " + xhr.status );
+				xhr.open("POST", checkoutServer);
+				numTries++;
+				xhr.send(JSON.stringify(cartRequestObj));
+			}
+			xhrBuffer.push(xhr);
+			$scope.XMLSendFinished = false;
+			xhr.setRequestHeader("Content-type", "application/json; charset=utf-8");
+			xhr.send(JSON.stringify(cartRequestObj));
+		}
+	}
 
 	$scope.requestCount = function(msg, xhrBuffer){
 		console.log("Sending request to server: " + remoteServer);
@@ -178,7 +271,9 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 						$scope.products = JSON.parse(xhr.responseText);
 						compareCartWithProducts();
 						$scope.XMLSendFinished = true;
-						if(!isEmpty($scope.cart))$scope.showCashTotal();
+						if(!isEmpty($scope.cart)){
+							$scope.showCashTotal();
+						}
 						$scope.startCountdown();
 					}else{
 						console.log("responseText is not of type JSON: " + xhr.responseText);
@@ -229,6 +324,7 @@ mainModule.controller('cart-products-controller', ['$scope', '$interval', functi
 	}
 
 	$scope.sendRequest = $scope.requestCount(remoteServer, inflight);
+	$scope.postCart = $scope.sendCart(remoteServer, inflight);
 
 
 }]);
